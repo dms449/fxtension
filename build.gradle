@@ -1,0 +1,101 @@
+apply plugin: 'java-library'
+apply plugin: 'idea'
+
+// Java version required
+sourceCompatibility = 1.8
+
+/*** CONFIGURATION SECTION ***/
+ext {
+    // WeatherTools Version Number
+    //   The version number is preferentially obtained from git
+    //   tags, where available. If the information cannot be
+    //   retrieved from Git, this version will be used instead.
+    //
+    //   Version numbers are semantic and are formatted
+    //   MAJOR.MINOR.PATCH.
+    SettingsDialogVersion = '0.1.0'
+}
+
+
+group = 'stevensd.settings'
+archivesBaseName = 'SettingsDialog'
+version = git_describe()
+
+// Define a local directory with java jars to use as a mavenLocal repo
+repositories {
+}
+
+sourceSets {
+    generated {
+        java.srcDir "${buildDir}/generated/"
+    }
+}
+
+dependencies{
+    api sourceSets.generated.output.classesDirs
+}
+
+/**
+ * Task: Generate Java class with version information
+ */
+task generateSources {
+    inputs.property "version", project.version
+    outputs.dir "$buildDir/generated"
+
+    doFirst {
+        def versionFile = file("$buildDir/generated/stevensd/settings/SettingsDialogVersion.java")
+        versionFile.parentFile.mkdirs()
+        versionFile.text =
+                """
+    package stevensd.settings;
+
+    public class SettingsDialogVersion {
+      public static String getVersion() {
+        return "$project.version";
+      }
+    }
+    """
+    }
+}
+
+// Always generate sources first
+compileJava.dependsOn generateSources
+compileJava.source generateSources.outputs.files, sourceSets.main.java
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Specification-Title': archivesBaseName,
+                'Implementation-Version': version,
+                'Implementation-Vendor': 'U.S. Army AMRDEC',
+                'Assembly-Date': new java.util.Date().toString()
+    }
+    from {
+        configurations.compileClasspath.collect {it.isDirectory() ? it :zipTree(it)}
+    }
+}
+
+/**
+ * Intellij
+ */
+idea {
+    module {
+        generatedSourceDirs += new File(buildDir, "generated")
+    }
+}
+
+/**
+ * Returns the git description of the software build.
+ * If git is not found, then the fallback version is used instead
+ * @return
+ */
+def git_describe() {
+    def git_description = "${SettingsDialogVersion}";
+    try{
+        git_description = "git -C ${projectDir} describe --long --always HEAD".execute().text.trim()
+    } catch (java.lang.Exception e){
+        /// do nothing
+    }
+    git_description
+} // git_describe()

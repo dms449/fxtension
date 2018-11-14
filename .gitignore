@@ -1,0 +1,33 @@
+
+# ignore Eclipse workspace files
+.metadata/
+.recommenders/
+
+# ignore Eclipse project files
+/*/.settings
+/*/bin/
+/*/export/
+
+/Matrix/
+
+# ignore a sandbox file
+/src/main/java/dynetics/trackdisplay/Sandbox.java
+
+# ignore intellij ide stuff
+/.idea
+
+# ignore output stuff
+*.class
+*.jar
+/out
+/log
+/build
+
+
+/.gradle
+*.iml
+*.properties
+
+*.zip
+*.jar
+*.class
