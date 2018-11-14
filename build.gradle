@@ -18,7 +18,7 @@ ext {
 
 
 group = 'stevensd.settings'
-archivesBaseName = 'SettingsDialog'
+archivesBaseName = 'settings-dialog'
 version = git_describe()
 
 // Define a local directory with java jars to use as a mavenLocal repo
