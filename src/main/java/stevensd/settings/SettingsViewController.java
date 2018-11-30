@@ -2,14 +2,11 @@ package stevensd.settings;
 
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -20,7 +17,7 @@ import java.util.ResourceBundle;
  *<p> All Setting objects are added to this object</p>
  * @param <T>
  */
-public class SettingsController<T extends Setting> implements Initializable {
+public class SettingsViewController<T extends Setting> implements Initializable {
   @FXML
   public TreeView<T> treeView;
   @FXML
@@ -48,7 +45,7 @@ public class SettingsController<T extends Setting> implements Initializable {
   /**
    * Constructor that creates an empty TreeItem for root
    */
-  public SettingsController() {
+  public SettingsViewController() {
     this.root = new TreeItem<>();
   }
 
@@ -56,7 +53,7 @@ public class SettingsController<T extends Setting> implements Initializable {
    * Constructor that takes a TreeItem which will be used for root
    * @param root
    */
-  public SettingsController(TreeItem<T> root) {
+  public SettingsViewController(TreeItem<T> root) {
     this.root = root;
   }
 
@@ -74,7 +71,7 @@ public class SettingsController<T extends Setting> implements Initializable {
       public void onChanged(Change<? extends Setting> c) {
         while(c.next()){
           if (c.wasAdded()){
-            c.getAddedSubList().forEach(setting -> SettingsController.this.addSetting((T)setting, item));
+            c.getAddedSubList().forEach(setting -> SettingsViewController.this.addSetting((T)setting, item));
           }
         }
       }

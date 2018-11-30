@@ -5,23 +5,54 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.function.Consumer;
 
 /**
- * A factory class to make the creation of the Settings and them being added to the TreeView simpler.
+ * A factory class to simplify the making of the Settings and adding them to the appropriate TreeItem
  * @param <T>
  */
 public class SettingsFactory<T extends Setting> {
+
+  /**
+   * The class used to create the Settings
+   */
   public Class<T> clazz;
-  public SettingsController<T> settingsController;
+
+  /**
+   * The controller that holds the TreeView
+   */
+  public SettingsViewController<T> settingsController;
+  public Consumer<T> onCreate;
+
+  /**
+   *
+   * @param clazz The class for the {@link Setting} object that will be created.
+   * @param settingsController An {@link Initializable} object
+   * @param consumer
+   */
+  SettingsFactory(Class<T> clazz, SettingsViewController<T> settingsController, Consumer<T> consumer){
+    this.clazz = clazz;
+    this.settingsController = settingsController;
+    this.onCreate = consumer;
+  }
 
   /**
    * Constructor
    * @param clazz The class for the {@link Setting} object that will be created.
    * @param settingsController An {@link Initializable} object
    */
-  public SettingsFactory(Class<T> clazz, SettingsController<T> settingsController) {
-    this.clazz = clazz;
-    this.settingsController = settingsController;
+  public SettingsFactory(Class<T> clazz, SettingsViewController<T> settingsController) {
+    this(clazz, settingsController, null);
+  }
+
+  /**
+   *
+   * @param clazz The class for the {@link Setting} object that will be created.
+   */
+  public SettingsFactory(Class<T> clazz){
+    this(clazz, new SettingsViewController<>(), null);
   }
 
   /**
@@ -42,13 +73,19 @@ public class SettingsFactory<T extends Setting> {
       AnchorPane anchorPane = loader.load();
 
       // Create the setting and add the content and name
-      T setting = clazz.newInstance();
-      setting.setContent(anchorPane);
-      setting.setName(name);
+      Constructor<T> constructor = clazz.getConstructor(new Class[]{AnchorPane.class,String.class});
+      T setting = constructor.newInstance(anchorPane, name);
+
+      // notifiy the consumer if it exists
+      if (onCreate != null){
+        onCreate.accept(setting);
+      }
       return setting;
 
     } catch (IOException | InstantiationException | IllegalAccessException e){
       e.printStackTrace();
+    } catch (NoSuchMethodException | InvocationTargetException e2){
+      e2.printStackTrace();
     }
     return null;
   }
@@ -78,5 +115,13 @@ public class SettingsFactory<T extends Setting> {
     T setting = create(name, resource, controller);
     parent.add(setting);
     return setting;
+  }
+
+  /**
+   *
+   * @param onCreate
+   */
+  public void setOnCreate(Consumer<T> onCreate) {
+    this.onCreate = onCreate;
   }
 }

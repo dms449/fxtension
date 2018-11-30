@@ -2,19 +2,25 @@ package stevensd.settings;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.Arrays;
 
+/**
+ *
+ */
 public class Setting {
   public AnchorPane content;
   public String name;
+
   public ObservableList<Setting> children;
 
   /**
    * Constructor for a simple setting
-   * @param content
-   * @param name
+   * @param content An AnchorPane containing the settings GUI
+   * @param name The name of this settings object
+
    */
   public Setting(AnchorPane content, String name) {
     this.content = content;
@@ -77,6 +83,7 @@ public class Setting {
   public void setName(String name) {
     this.name = name;
   }
+
 
   @Override
   public String toString(){
