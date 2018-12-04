@@ -1,6 +1,8 @@
 package stevensd.settings.example;
 
 import javafx.beans.property.Property;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,14 +19,22 @@ public class Setting1Controller extends AbstractSettingsController {
   @FXML
   public TextField textField;
   @FXML
-  public ComboBox combo;
+  public ComboBox<Items> combo;
   @FXML
   public ToggleButton btn;
 
+  public enum Items{
+    ITEM1,
+    ITEM2,
+    ITEM3
+  }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    this.addSettings(textField.textProperty(), combo.itemsProperty(), btn.selectedProperty());
+    combo.getItems().addAll(Items.values());
+    this.addSettings(textField.textProperty(), (observable, oldValue, newValue) -> System.out.println("text field changed to: "+newValue) );
+    this.addSettings(combo.valueProperty(), (observable, oldValue, newValue) -> System.out.println("combo changed to: "+newValue));
+    this.addSettings(btn.selectedProperty(), (observable, oldValue, newValue) -> System.out.println("button changed to: "+newValue));
   }
 
   public Setting1Controller() {
@@ -32,11 +42,7 @@ public class Setting1Controller extends AbstractSettingsController {
   }
 
   @Override
-  public void onChanged(Map<Property, Object> changed) {
+  public void onChanged() {
     System.out.println("Setting 1 changed");
-    for (Map.Entry<Property, Object> entry: changed.entrySet()){
-      System.out.println(entry.getKey() + " changed from " + entry.getValue() + "  to  " + entry.getKey().getValue());
-    }
-    System.out.println("\n");
   }
 }

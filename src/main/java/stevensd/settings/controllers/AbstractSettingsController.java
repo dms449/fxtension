@@ -1,45 +1,58 @@
 package stevensd.settings.controllers;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.Initializable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-import java.util.stream.Collectors;
 
 public abstract class AbstractSettingsController implements Initializable {
-//  public ArrayList<Property> gui;
-//  public ArrayList<Object> applied;
-  public HashMap<Property, Object> properties;
+  public HashMap<Property, Property> propertyMap;
 
   public SimpleBooleanProperty isChanged;
 
   public AbstractSettingsController() {
-
-//    gui = new ArrayList<>();
-//    applied = new ArrayList<>();
-    properties = new HashMap<>();
+    propertyMap = new HashMap<>();
     isChanged = new SimpleBooleanProperty(false);
   }
 
   /**
    * Add a {@link Property} object for monitoring.
    *
-   * Once it is added, its last 'applied' state is monitored and compared to its current state. (@see isChanged())
-   * @param array
+   * Creates a new {@link SimpleObjectProperty} to keep the last applied state of the provided property.
+   * @param properties
    */
-  public void addSettings(Property... array){
-    for (Property obj: array){
+  public void addSettings(Property... properties){
+    for (Property obj: properties){
       obj.addListener(observable -> isChanged.setValue(isChanged()));
-      properties.put(obj, obj.getValue());
-//      gui.add(obj);
-//      applied.add(obj.getValue());
+      propertyMap.put(obj,  new SimpleObjectProperty<>(obj.getValue()));
     }
+  }
+
+
+  /**
+   * Add a property and a listener.
+   *
+   * The listener will be applied to the applied SimpleObjectProperty which allows the user to be notified when a
+   * specific property has been changed via apply.
+   * @param property {@link Property} object to be monitored. This should be the property of the GUI object.
+   * @param listener {@link ChangeListener} A listener added to the newly created SimpeObjectProperty
+   * @param <T>
+   */
+  public <T> void addSettings(Property<T> property, ChangeListener<T> listener){
+    property.addListener(observable -> isChanged.setValue(isChanged()));
+    SimpleObjectProperty<T> applied = new SimpleObjectProperty<>();
+    applied.addListener(listener);
+    propertyMap.put(property, applied);
+  }
+
+  /**
+   * Remove a property so that it will no longer be observed for changes
+   * @param property
+   */
+  public void removeSetting(Property property){
+    propertyMap.remove(property);
   }
 
   /**
@@ -49,9 +62,10 @@ public abstract class AbstractSettingsController implements Initializable {
    */
   public boolean isChanged(){
     boolean flag = true;
-    for (Map.Entry<Property, Object> entry:properties.entrySet()){
+    for (Map.Entry<Property, Property> entry: propertyMap.entrySet()){
       if (entry.getKey().getValue() != null){
-        flag = flag && entry.getKey().getValue().equals(entry.getValue());
+//        System.out.println(entry.getKey().equals(entry.getValue()));
+        flag = flag && entry.getKey().getValue().equals(entry.getValue().getValue());
       }
     }
     return !flag;
@@ -65,17 +79,14 @@ public abstract class AbstractSettingsController implements Initializable {
    */
   public void apply(){
     if (isChanged()){
-      // Take action since something changed
-      Map<Property, Object> changed = properties.entrySet()
-          .stream()
-          .filter(entry -> !entry.getKey().getValue().equals(entry.getValue()))
-          .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-      onChanged(changed);
 
       // Clear out the previously applied variables and set them to their new values
-      for (Map.Entry<Property, Object> entry:properties.entrySet()){
-        entry.setValue(entry.getKey().getValue());
+      for (Map.Entry<Property, Property> entry: propertyMap.entrySet()){
+        entry.getValue().setValue(entry.getKey().getValue());
       }
+
+      // Take action since something changed
+      onChanged();
 
       // set the new value for isChanged (this should always be false)
       isChanged.setValue(isChanged());
@@ -84,12 +95,12 @@ public abstract class AbstractSettingsController implements Initializable {
   }
 
   /**
-   * Basically does the opposite of {@link AbstractSettingsController::apply} by updating the values in 'gui' to match
-   * those in 'applied'
+   * Basically does the opposite of {@link AbstractSettingsController::apply} by updating the key values with the value
+   * values.
    */
   public void reset(){
-    for (Map.Entry<Property, Object> entry:properties.entrySet()){
-      entry.getKey().setValue(entry.getValue());
+    for (Map.Entry<Property, Property> entry: propertyMap.entrySet()){
+      entry.getKey().setValue(entry.getValue().getValue());
     }
   }
 
@@ -97,6 +108,6 @@ public abstract class AbstractSettingsController implements Initializable {
    * Concrete controller classes should implement this method to take action when something has changed and the user
    * has chosen to 'apply' the changes.
    */
-  public abstract void onChanged(Map<Property, Object> changed);
+  public abstract void onChanged();
 
 }

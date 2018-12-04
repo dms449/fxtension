@@ -19,12 +19,9 @@ public class Setting21Controller extends AbstractSettingsController {
   }
 
   @Override
-  public void onChanged(Map<Property, Object> changed) {
+  public void onChanged() {
     System.out.println("Setting 2-1 changed");
-    for (Map.Entry<Property, Object> entry: changed.entrySet()){
-      System.out.println("from " + entry.getValue() + "  to  " + entry.getKey());
-    }
-    System.out.println("\n");
+
   }
 
 }

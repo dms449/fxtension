@@ -27,7 +27,7 @@ public abstract class AbstractSettingsDialogController implements Initializable 
   @FXML
   public Button defaultBtn;
 
-  // =================== Non FXML properties ==================
+  // =================== Non FXML propertyMap ==================
 
   public SettingsViewController<Setting> settingsViewController;
 
