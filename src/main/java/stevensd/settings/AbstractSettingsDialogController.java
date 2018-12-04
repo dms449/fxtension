@@ -81,11 +81,14 @@ public abstract class AbstractSettingsDialogController implements Initializable 
 
 
   public AbstractSettingsDialogController(SettingsViewController<Setting> settingsViewController) {
+    super();
     this.settingsViewController = settingsViewController;
+  }
+
+  public AbstractSettingsDialogController() {
     controllers = new ArrayList<>();
     isChanged = new SimpleBooleanProperty();
   }
-
 
   public void syncGuiToApp() {
     controllers.forEach(AbstractSettingsController::apply);
@@ -117,5 +120,9 @@ public abstract class AbstractSettingsDialogController implements Initializable 
 
   public SettingsViewController<Setting> getSettingsViewController() {
     return settingsViewController;
+  }
+
+  public void setSettingsViewController(SettingsViewController<Setting> settingsViewController) {
+    this.settingsViewController = settingsViewController;
   }
 }
