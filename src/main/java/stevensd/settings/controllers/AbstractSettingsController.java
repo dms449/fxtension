@@ -23,7 +23,7 @@ public abstract class AbstractSettingsController implements Initializable {
    * Creates a new {@link SimpleObjectProperty} to keep the last applied state of the provided property.
    * @param properties
    */
-  public void addSettings(Property... properties){
+  public void addProperties(Property... properties){
     for (Property obj: properties){
       obj.addListener(observable -> isChanged.setValue(isChanged()));
       propertyMap.put(obj,  new SimpleObjectProperty<>(obj.getValue()));
@@ -40,18 +40,29 @@ public abstract class AbstractSettingsController implements Initializable {
    * @param listener {@link ChangeListener} A listener added to the newly created SimpeObjectProperty
    * @param <T>
    */
-  public <T> void addSettings(Property<T> property, ChangeListener<T> listener){
+  public <T> void addProperty(Property<T> property, ChangeListener<T> listener){
     property.addListener(observable -> isChanged.setValue(isChanged()));
-    SimpleObjectProperty<T> applied = new SimpleObjectProperty<>();
+    SimpleObjectProperty<T> applied = new SimpleObjectProperty<>(property.getValue());
     applied.addListener(listener);
     propertyMap.put(property, applied);
+  }
+
+  /**
+   * Return the value currently stored in the "applied" property.
+   *
+   * @param property This is the key to the other "applied" property
+   * @param <T> The return type should match the type in the provided property
+   * @return
+   */
+  public <T> T getAppliedValue(Property<T> property){
+    return (T)propertyMap.get(property).getValue();
   }
 
   /**
    * Remove a property so that it will no longer be observed for changes
    * @param property
    */
-  public void removeSetting(Property property){
+  public void removeProperty(Property property){
     propertyMap.remove(property);
   }
 
@@ -64,8 +75,9 @@ public abstract class AbstractSettingsController implements Initializable {
     boolean flag = true;
     for (Map.Entry<Property, Property> entry: propertyMap.entrySet()){
       if (entry.getKey().getValue() != null){
-//        System.out.println(entry.getKey().equals(entry.getValue()));
         flag = flag && entry.getKey().getValue().equals(entry.getValue().getValue());
+      } else {
+        flag = flag && entry.getValue().getValue() == null;
       }
     }
     return !flag;

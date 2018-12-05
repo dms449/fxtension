@@ -1,4 +1,4 @@
-package stevensd.settings;
+package stevensd.settings.controllers;
 
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
+import stevensd.settings.Setting;
 
 import java.net.URL;
 import java.util.Arrays;

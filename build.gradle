@@ -1,3 +1,6 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 apply plugin: 'java-library'
 apply plugin: 'idea'
 
@@ -110,5 +113,5 @@ def git_describe() {
     } catch (java.lang.Exception e){
         /// do nothing
     }
-    git_description
+    git_description.substring(0, git_description.indexOf("-"))
 } // git_describe()

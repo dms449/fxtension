@@ -56,7 +56,7 @@ public class AbstractSettinsControllersTest {
     integer = new SimpleIntegerProperty(5);
     bool = new SimpleBooleanProperty(false);
 
-    controller.addSettings(string, integer, bool);
+    controller.addProperty(string, integer, bool);
   }
 
   /**
