@@ -16,16 +16,16 @@
               <items>
                   <HBox spacing="5.0">
                      <children>
-                      <Button fx:id="defaultBtn" mnemonicParsing="false" prefWidth="55.0" text="Default" />
+                      <Button fx:id="defaultBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Default" />
                         <Separator visible="false" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="okBtn" mnemonicParsing="false" prefWidth="55.0" text="Ok" />
-                        <Button fx:id="applyBtn" disable="true" mnemonicParsing="false" prefWidth="55.0" text="Apply" />
+                        <Button fx:id="okBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Ok" />
+                        <Button fx:id="applyBtn" disable="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Apply" />
                         <Separator orientation="VERTICAL">
                            <HBox.margin>
                               <Insets left="3.0" />
                            </HBox.margin>
                         </Separator>
-                        <Button fx:id="cancelBtn" mnemonicParsing="false" prefWidth="55.0" text="Cancel" />
+                        <Button fx:id="cancelBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="Cancel" />
                      </children>
                   </HBox>
               </items>
