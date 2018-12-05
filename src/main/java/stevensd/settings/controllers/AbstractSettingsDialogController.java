@@ -12,13 +12,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public abstract class AbstractSettingsDialogController<T extends Setting> implements Initializable {
+public abstract class AbstractSettingsDialogController<T extends Setting, C extends AbstractSettingsController> implements Initializable {
 
   // =================== Non FXML propertyMap ==================
 
   public SettingsViewController<T> settingsViewController;
 
-  public ArrayList<AbstractSettingsController> controllers;
+  public ArrayList<C> controllers;
 
   public SimpleBooleanProperty isChanged;
 
@@ -49,11 +49,11 @@ public abstract class AbstractSettingsDialogController<T extends Setting> implem
   }
 
   public void syncGuiToApp() {
-    controllers.forEach(AbstractSettingsController::apply);
+    controllers.forEach(C::apply);
   }
 
   public void syncAppToGui() {
-    controllers.forEach(AbstractSettingsController::reset);
+    controllers.forEach(C::reset);
   }
 
   public abstract void syncAppToDisk();
@@ -64,8 +64,8 @@ public abstract class AbstractSettingsDialogController<T extends Setting> implem
     stage.close();
   }
 
-  public void addControllers(AbstractSettingsController... array){
-    for (AbstractSettingsController c: array){
+  public void addControllers(C... array){
+    for (C c: array){
       controllers.add(c);
       c.isChanged.addListener((observable, oldValue, newValue) -> {
         boolean val = newValue;

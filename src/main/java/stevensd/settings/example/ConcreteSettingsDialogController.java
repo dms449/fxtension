@@ -2,9 +2,10 @@ package stevensd.settings.example;
 
 import javafx.stage.Stage;
 import stevensd.settings.Setting;
+import stevensd.settings.controllers.AbstractSettingsController;
 import stevensd.settings.controllers.SimpleSettingsDialogController;
 
-public class ConcreteSettingsDialogController<T extends Setting> extends SimpleSettingsDialogController<T> {
+public class ConcreteSettingsDialogController<T extends Setting> extends SimpleSettingsDialogController<T, AbstractSettingsController> {
 
 
   public ConcreteSettingsDialogController(Stage stage, Class<T> clazz) {

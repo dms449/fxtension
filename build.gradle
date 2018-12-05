@@ -113,5 +113,6 @@ def git_describe() {
     } catch (java.lang.Exception e){
         /// do nothing
     }
-    git_description.substring(0, git_description.indexOf("-"))
+//    git_description.substring(0, git_description.indexOf("-"))
+    git_description
 } // git_describe()
