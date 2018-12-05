@@ -1,21 +1,15 @@
 package stevensd.settings.example;
 
-import stevensd.settings.AbstractSettingsDialogController;
+import javafx.stage.Stage;
 import stevensd.settings.Setting;
-import stevensd.settings.SettingsViewController;
-import stevensd.settings.controllers.AbstractSettingsController;
+import stevensd.settings.controllers.SimpleSettingsDialogController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+public class ConcreteSettingsDialogController<T extends Setting> extends SimpleSettingsDialogController<T> {
 
-public class ConcreteSettingsDialogController extends AbstractSettingsDialogController {
 
-  public ConcreteSettingsDialogController(SettingsViewController<Setting> settingsViewController) {
-    super(settingsViewController);
+  public ConcreteSettingsDialogController(Stage stage, Class<T> clazz) {
+    super(stage, clazz);
   }
-
-
-
 
   @Override
   public void syncAppToDisk() {
@@ -27,8 +21,4 @@ public class ConcreteSettingsDialogController extends AbstractSettingsDialogCont
 
   }
 
-  @Override
-  public void close() {
-
-  }
 }

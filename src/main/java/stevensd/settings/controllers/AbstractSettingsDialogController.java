@@ -1,39 +1,30 @@
-package stevensd.settings;
+package stevensd.settings.controllers;
 
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import stevensd.settings.controllers.AbstractSettingsController;
+import stevensd.settings.Setting;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public abstract class AbstractSettingsDialogController implements Initializable {
-  @FXML
-  public VBox vbox;
-  @FXML
-  public Button okBtn;
-  @FXML
-  public Button applyBtn;
-  @FXML
-  public Button cancelBtn;
-  @FXML
-  public Button defaultBtn;
+public abstract class AbstractSettingsDialogController<T extends Setting> implements Initializable {
 
   // =================== Non FXML propertyMap ==================
 
-  public SettingsViewController<Setting> settingsViewController;
+  public SettingsViewController<T> settingsViewController;
 
   public ArrayList<AbstractSettingsController> controllers;
 
   public SimpleBooleanProperty isChanged;
+
+  public Pane settingsPane;
+
+  public Stage stage;
 
 
 
@@ -44,48 +35,15 @@ public abstract class AbstractSettingsDialogController implements Initializable 
     loader.setLocation(AbstractSettingsDialogController.class.getResource("/SettingsView.fxml"));
 
     try{
-      Pane pane = loader.load();
-      vbox.getChildren().add(0, pane);
-
+      settingsPane = loader.load();
     } catch (IOException e){
       e.printStackTrace();
     }
-
-    // Define the button actions
-
-    // Ok Button
-    // Save the settings and close the window
-    okBtn.setOnAction(event -> {
-      syncGuiToApp();
-      syncAppToDisk();
-      close();
-    });
-
-    applyBtn.setOnAction(event -> {
-      syncGuiToApp();
-      syncAppToDisk();
-    });
-
-    cancelBtn.setOnAction(event -> {
-      syncAppToGui();
-    });
-
-    // Default Button
-    // load the default config
-    defaultBtn.setOnAction(event -> {
-    });
-
-    // The apply button should be enabled anytime something is changed
-    isChanged.addListener( (observable, oldValue, newValue) -> applyBtn.setDisable(!newValue));
   }
 
-
-  public AbstractSettingsDialogController(SettingsViewController<Setting> settingsViewController) {
-    super();
-    this.settingsViewController = settingsViewController;
-  }
-
-  public AbstractSettingsDialogController() {
+  public AbstractSettingsDialogController(Stage stage) {
+    this.stage = stage;
+    settingsViewController = new SettingsViewController<>();
     controllers = new ArrayList<>();
     isChanged = new SimpleBooleanProperty();
   }
@@ -100,10 +58,11 @@ public abstract class AbstractSettingsDialogController implements Initializable 
 
   public abstract void syncAppToDisk();
 
-
   public abstract void syncDiskToGui();
 
-  public abstract void close();
+  public void close(){
+    stage.close();
+  }
 
   public void addControllers(AbstractSettingsController... array){
     for (AbstractSettingsController c: array){
@@ -118,11 +77,13 @@ public abstract class AbstractSettingsDialogController implements Initializable 
     }
   }
 
-  public SettingsViewController<Setting> getSettingsViewController() {
+
+
+  public SettingsViewController<T> getSettingsViewController() {
     return settingsViewController;
   }
 
-  public void setSettingsViewController(SettingsViewController<Setting> settingsViewController) {
+  public void setSettingsViewController(SettingsViewController<T> settingsViewController) {
     this.settingsViewController = settingsViewController;
   }
 }

@@ -1,3 +1,6 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 apply plugin: 'java-library'
 apply plugin: 'idea'
 
@@ -13,7 +16,7 @@ ext {
     //
     //   Version numbers are semantic and are formatted
     //   MAJOR.MINOR.PATCH.
-    SettingsDialogVersion = '0.2.0'
+    SettingsDialogVersion = '0.3.0'
 
     // default locations for external java libs
     String osName = System.getProperty("os.name").toLowerCase()
@@ -110,5 +113,5 @@ def git_describe() {
     } catch (java.lang.Exception e){
         /// do nothing
     }
-    git_description
+    git_description.substring(0, git_description.indexOf("-"))
 } // git_describe()

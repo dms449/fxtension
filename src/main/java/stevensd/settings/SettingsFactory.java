@@ -3,6 +3,7 @@ package stevensd.settings;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
+import stevensd.settings.controllers.SettingsViewController;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
