@@ -59,11 +59,7 @@ public abstract class SimpleSettingsDialogController<T extends Setting, C extend
 
     cancelBtn.setOnAction(event -> {
       syncAppToGui();
-    });
-
-    // Default Button
-    // load the default config
-    defaultBtn.setOnAction(event -> {
+      close();
     });
 
     // The apply button should be enabled anytime something is changed

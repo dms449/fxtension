@@ -42,7 +42,7 @@ public abstract class AbstractSettingsDialogController<T extends Setting, C exte
   }
 
   public AbstractSettingsDialogController(Stage stage) {
-    this.stage = stage;
+    setStage(stage);
     settingsViewController = new SettingsViewController<>();
     controllers = new ArrayList<>();
     isChanged = new SimpleBooleanProperty();
@@ -85,5 +85,13 @@ public abstract class AbstractSettingsDialogController<T extends Setting, C exte
 
   public void setSettingsViewController(SettingsViewController<T> settingsViewController) {
     this.settingsViewController = settingsViewController;
+  }
+
+  public Stage getStage() {
+    return stage;
+  }
+
+  public void setStage(Stage stage) {
+    this.stage = stage;
   }
 }
