@@ -14,8 +14,6 @@ import java.util.ResourceBundle;
 
 public abstract class AbstractSettingsDialogController<T extends Setting, C extends AbstractSettingsController> implements Initializable {
 
-  // =================== Non FXML propertyMap ==================
-
   public SettingsViewController<T> settingsViewController;
 
   public ArrayList<C> controllers;
@@ -25,7 +23,6 @@ public abstract class AbstractSettingsDialogController<T extends Setting, C exte
   public Pane settingsPane;
 
   public Stage stage;
-
 
 
   @Override
@@ -48,17 +45,6 @@ public abstract class AbstractSettingsDialogController<T extends Setting, C exte
     isChanged = new SimpleBooleanProperty();
   }
 
-  public void syncGuiToApp() {
-    controllers.forEach(C::apply);
-  }
-
-  public void syncAppToGui() {
-    controllers.forEach(C::reset);
-  }
-
-  public abstract void syncAppToDisk();
-
-  public abstract void syncDiskToGui();
 
   public void close(){
     stage.close();
@@ -77,7 +63,13 @@ public abstract class AbstractSettingsDialogController<T extends Setting, C exte
     }
   }
 
+  public Stage getStage() {
+    return stage;
+  }
 
+  public void setStage(Stage stage) {
+    this.stage = stage;
+  }
 
   public SettingsViewController<T> getSettingsViewController() {
     return settingsViewController;

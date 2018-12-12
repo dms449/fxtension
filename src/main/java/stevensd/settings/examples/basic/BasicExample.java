@@ -1,12 +1,14 @@
-package stevensd.settings.example;
+package stevensd.settings.examples.basic;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import stevensd.settings.Setting;
 
 
-public class Demo extends Application {
+public class BasicExample extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -25,8 +27,22 @@ public class Demo extends Application {
     dialogController.createAndAdd("setting2-1", "/exampleSettings/setting2-1.fxml", new Setting21Controller(), s2);
     dialogController.createAndAdd("setting2-2", "/exampleSettings/setting2-2.fxml", new Setting22Controller(), s2);
 
+    // Show the settings pane everytime `btn` is clicked
+    Scene settingsScene = new Scene(dialogController.getPane());
+    Button btn = new Button("Show Settings");
+    btn.setOnAction(event -> {
+      Stage settingsStage = new Stage();
+      dialogController.setStage(settingsStage);
+      settingsStage.setScene(settingsScene);
+      settingsStage.showAndWait();
+    });
+
+    // Create the main Pane that is visible when the application starts. (its just a button)
+    AnchorPane pane = new AnchorPane();
+    pane.getChildren().add(btn);
+
     // Create and show the settings dialog. (The DialogController knows how to load itself)
-    Scene scene = new Scene(dialogController.getPane());
+    Scene scene = new Scene(pane);
     primaryStage.setTitle("Settings");
     primaryStage.setScene(scene);
     primaryStage.show();

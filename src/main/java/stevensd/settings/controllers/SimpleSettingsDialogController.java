@@ -70,6 +70,19 @@ public abstract class SimpleSettingsDialogController<T extends Setting, C extend
     super(stage, clazz);
   }
 
+
+  public void syncGuiToApp() {
+    controllers.forEach(C::apply);
+  }
+
+  public void syncAppToGui() {
+    controllers.forEach(C::reset);
+  }
+
+  public abstract void syncAppToDisk();
+
+  public abstract void syncDiskToGui();
+
   public void load(){
     try{
       FXMLLoader loader = new FXMLLoader();

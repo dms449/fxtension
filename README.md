@@ -1,5 +1,6 @@
 # settings-dialog
 
+
 Embed a settings dialog into any JavaFX application with ease.
 
 **NOTE: This project is still under active development and is far from completed.**
@@ -8,8 +9,11 @@ Embed a settings dialog into any JavaFX application with ease.
 
 ![](screenshots/setting21.png "Logo Title Text 1") 
 
+## Installation
+
+
 ## Quickstart
-This simple example can be seen inside `stevensd.settings.example` and visualized by running `stevensd.settings.example.Demo`.
+This simple example can be seen inside `stevensd.settings.examples` and visualized by running `stevensd.settings.examples.basic.BasicExample`.
 
 ```java
     // Create the controller for the settings dialog.
@@ -26,8 +30,22 @@ This simple example can be seen inside `stevensd.settings.example` and visualize
     dialogController.createAndAdd("setting2-1", "/exampleSettings/setting2-1.fxml", new Setting21Controller(), s2);
     dialogController.createAndAdd("setting2-2", "/exampleSettings/setting2-2.fxml", new Setting22Controller(), s2);
     
+    // Show the settings pane everytime `btn` is clicked
+    Scene settingsScene = new Scene(dialogController.getPane());
+    Button btn = new Button("Show Settings");
+    btn.setOnAction(event -> {
+      Stage settingsStage = new Stage();
+      dialogController.setStage(settingsStage);
+      settingsStage.setScene(settingsScene);
+      settingsStage.showAndWait();
+    });
+    
+    // Create the main Pane that is visible when the application starts. (its just a button)
+    AnchorPane pane = new AnchorPane();
+    pane.getChildren().add(btn);
+
     // Create and show the settings dialog. (The DialogController knows how to load itself)
-    Scene scene = new Scene(dialogController.getPane());
+    Scene scene = new Scene(pane);
     primaryStage.setTitle("Settings");
     primaryStage.setScene(scene);
     primaryStage.show();
@@ -35,6 +53,7 @@ This simple example can be seen inside `stevensd.settings.example` and visualize
 ```
 
 ## Usage
+
 
 #### Settings Panes
 

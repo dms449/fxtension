@@ -1,4 +1,4 @@
-package stevensd.settings.example;
+package stevensd.settings.examples.basic;
 
 import javafx.stage.Stage;
 import stevensd.settings.Setting;

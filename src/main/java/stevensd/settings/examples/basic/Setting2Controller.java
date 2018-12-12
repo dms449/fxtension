@@ -1,4 +1,4 @@
-package stevensd.settings.example;
+package stevensd.settings.examples.basic;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;

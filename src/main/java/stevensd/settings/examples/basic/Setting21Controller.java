@@ -1,17 +1,23 @@
-package stevensd.settings.example;
+package stevensd.settings.examples.basic;
 
-import javafx.beans.property.Property;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXML;
+import javafx.scene.control.RadioButton;
 import stevensd.settings.controllers.AbstractSettingsController;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Setting21Controller extends AbstractSettingsController {
+  @FXML
+  public RadioButton radio1;
+  @FXML
+  public RadioButton radio2;
+  @FXML
+  public RadioButton radio3;
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-
+    addProperties(radio1.selectedProperty(), radio2.selectedProperty(), radio3.selectedProperty());
   }
 
   public Setting21Controller() {
