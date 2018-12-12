@@ -78,12 +78,4 @@ public abstract class AbstractSettingsDialogController<T extends Setting, C exte
   public void setSettingsViewController(SettingsViewController<T> settingsViewController) {
     this.settingsViewController = settingsViewController;
   }
-
-  public Stage getStage() {
-    return stage;
-  }
-
-  public void setStage(Stage stage) {
-    this.stage = stage;
-  }
 }
