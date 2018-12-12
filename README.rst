@@ -1,3 +1,4 @@
+===============
 settings-dialog
 ===============
 
@@ -5,9 +6,9 @@ Embed a settings dialog into any JavaFX application with ease.
 
 **NOTE: This project is still under active development and is far from completed.**
 
-![](screenshots/setting1.pn "Logo Title Text 1")
+![](screenshots/setting1.png "Logo Title Text 1")
 
-![](screenshots/setting21.pn "Logo Title Text 1")
+![](screenshots/setting21.png "Logo Title Text 1")
 
 Installation
 ------------
@@ -17,41 +18,39 @@ Usage
 -----
 
 
-#### Setting Panes
-Create a *Setting* object and add it to the *SettingsView*.
+Setting Panes
+=============
+Create a *Setting* object and add it to the *SettingsView*. ::
 
-```java
-// the controller behind the SettingsView holds all of the Setting objects
-SettingsViewController<Setting> svc = new SettingsViewController<>();
+    // the controller behind the SettingsView holds all of the Setting objects
+    SettingsViewController<Setting> svc = new SettingsViewController<>();
 
-// the root Pane of every setting should be an AnchorPane
-Setting setting = new Setting(anchorPane, "setting name");
-svc.addSetting(setting);
+    // the root Pane of every setting should be an AnchorPane
+    Setting setting = new Setting(anchorPane, "setting name");
+    svc.addSetting(setting);
 
-```
 or use the SettingsFactory to load the pane from an FXML and automatically
-add it to the *SettingsView*.
-
-```java
-SettingsViewController<Setting> svc = new SettingsViewController<>();
-
-// create the factory by providing the class and the SettingsViewController instance
-SettingsFactory<Setting> factory = new SettingsFactory<>(Setting.class, svc);
-
-// you must provide a controller which implements the Initializable interface
-factory.createAndAdd("settingName", "pathToFile.fxml", initializableController);
-
-```
+add it to the *SettingsView*. ::
 
 
-#### Setting Pane Controllers
+    SettingsViewController<Setting> svc = new SettingsViewController<>();
+
+    // create the factory by providing the class and the SettingsViewController instance
+    SettingsFactory<Setting> factory = new SettingsFactory<>(Setting.class, svc);
+
+    // you must provide a controller which implements the Initializable interface
+    factory.createAndAdd("settingName", "pathToFile.fxml", initializableController);
+
+
+
+Setting Pane Controllers
+========================
 Each setting pane will need a controller. If you plan to use the *SettingsDialog* and the
 `AbstractSettingsDialogController` then your individual Setting controllers should extend `AbstractSettingController`.
 
 This provides some very critical and helpful functionality for detecting and acting on changes made to a setting
-property.
+property. ::
 
-```java
 public class SettingController extends AbstractSettingsController {
   @FXML
   public DatePicker datePicker;
@@ -83,6 +82,4 @@ public class SettingController extends AbstractSettingsController {
     System.out.println("At least one property has been changed");
   }
 
-
-```
 
