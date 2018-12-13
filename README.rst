@@ -6,10 +6,6 @@ Embed a settings dialog into any JavaFX application with ease.
 
 **NOTE: This project is still under active development and is far from completed.**
 
-![](screenshots/setting1.png "Logo Title Text 1")
-
-![](screenshots/setting21.png "Logo Title Text 1")
-
 Installation
 ------------
 
@@ -51,35 +47,35 @@ Each setting pane will need a controller. If you plan to use the *SettingsDialog
 This provides some very critical and helpful functionality for detecting and acting on changes made to a setting
 property. ::
 
-public class SettingController extends AbstractSettingsController {
-  @FXML
-  public DatePicker datePicker;
-  @FXML
-  public CheckBox check;
-  @FXML
-  public RadioButton radio;
+    public class SettingController extends AbstractSettingsController {
+      @FXML
+      public DatePicker datePicker;
+      @FXML
+      public CheckBox check;
+      @FXML
+      public RadioButton radio;
 
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    // Add any number of properties for monitoring
-    addProperties(radio.selectedProperty(), check.selectedProperty());
+      @Override
+      public void initialize(URL location, ResourceBundle resources) {
+        // Add any number of properties for monitoring
+        addProperties(radio.selectedProperty(), check.selectedProperty());
 
-    // Use this method when you would like to add a property and a listener. The listener will be called when the
-    // provided property value has changed and the change has been applied.
-    // For more information see, `AbstractSettingsController:addProperty`
-    addProperty(datePicker.valueProperty(), ((observable, oldValue, newValue) ->
-            System.out.println(String.format("date updated to: " + newValue.format(DateTimeFormatter.BASIC_ISO_DATE)))));
-  }
+        // Use this method when you would like to add a property and a listener. The listener will be called when the
+        // provided property value has changed and the change has been applied.
+        // For more information see, `AbstractSettingsController:addProperty`
+        addProperty(datePicker.valueProperty(), ((observable, oldValue, newValue) ->
+                System.out.println(String.format("date updated to: " + newValue.format(DateTimeFormatter.BASIC_ISO_DATE)))));
+      }
 
-  public Setting2Controller() {
-    super();
-  }
+      public Setting2Controller() {
+        super();
+      }
 
-  // This method is called after at least one monitored property has been changed and the change
-  // has been applied.
-  @Override
-  public void onChanged() {
-    System.out.println("At least one property has been changed");
-  }
+      // This method is called after at least one monitored property has been changed and the change
+      // has been applied.
+      @Override
+      public void onChanged() {
+        System.out.println("At least one property has been changed");
+      }
 
 
