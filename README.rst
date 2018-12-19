@@ -4,7 +4,6 @@ settings-dialog
 
 Embed a settings dialog into any JavaFX application with ease.
 
-**NOTE: This project is still under active development and is far from completed.**
 
 Installation
 ------------
@@ -42,7 +41,7 @@ add it to the *SettingsView*. ::
 Setting Pane Controllers
 ========================
 Each setting pane will need a controller. If you plan to use the *SettingsDialog* and the
-`AbstractSettingsDialogController` then your individual Setting controllers should extend `AbstractSettingController`.
+*AbstractSettingsDialogController* then your individual Setting controllers should extend *AbstractSettingController*.
 
 This provides some very critical and helpful functionality for detecting and acting on changes made to a setting
 property. ::
@@ -67,7 +66,7 @@ property. ::
                 System.out.println(String.format("date updated to: " + newValue.format(DateTimeFormatter.BASIC_ISO_DATE)))));
       }
 
-      public Setting2Controller() {
+      public SettingController() {
         super();
       }
 
