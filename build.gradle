@@ -16,7 +16,7 @@ ext {
     //
     //   Version numbers are semantic and are formatted
     //   MAJOR.MINOR.PATCH.
-    SettingsDialogVersion = '0.3.0'
+    SettingsDialogVersion = '0.4.0'
 
     // default locations for external java libs
     String osName = System.getProperty("os.name").toLowerCase()
