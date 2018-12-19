@@ -1,24 +1,28 @@
-package stevensd.settings.example;
+package stevensd.settings.examples.basic;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import stevensd.settings.controllers.AbstractSettingsController;
 
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class Setting2Controller extends AbstractSettingsController {
   @FXML
   public DatePicker datePicker;
   @FXML
-  public RadioButton radio1;
+  public CheckBox check1;
   @FXML
-  public RadioButton radio2;
+  public RadioButton radio1;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    addProperties(datePicker.valueProperty(), radio1.selectedProperty(), radio2.selectedProperty());
+    addProperties(radio1.selectedProperty(), check1.selectedProperty());
+    addProperty(datePicker.valueProperty(), ((observable, oldValue, newValue) ->
+            System.out.println(String.format("date updated to: " + newValue.format(DateTimeFormatter.BASIC_ISO_DATE)))));
   }
 
   public Setting2Controller() {
@@ -27,7 +31,7 @@ public class Setting2Controller extends AbstractSettingsController {
 
   @Override
   public void onChanged() {
-    System.out.println("Setting 2 changed");
+    System.out.println("At least one property has been changed");
   }
 
 }

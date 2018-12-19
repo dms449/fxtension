@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class SimpleSettingsDialogController<T extends Setting> extends SettingsDialogFactoryController<T> {
+public abstract class SimpleSettingsDialogController<T extends Setting, C extends AbstractSettingsController> extends SettingsDialogFactoryController<T,C> {
   @FXML
   public VBox vbox;
   @FXML
@@ -59,11 +59,7 @@ public abstract class SimpleSettingsDialogController<T extends Setting> extends 
 
     cancelBtn.setOnAction(event -> {
       syncAppToGui();
-    });
-
-    // Default Button
-    // load the default config
-    defaultBtn.setOnAction(event -> {
+      close();
     });
 
     // The apply button should be enabled anytime something is changed
@@ -73,6 +69,19 @@ public abstract class SimpleSettingsDialogController<T extends Setting> extends 
   public SimpleSettingsDialogController(Stage stage, Class<T> clazz) {
     super(stage, clazz);
   }
+
+
+  public void syncGuiToApp() {
+    controllers.forEach(C::apply);
+  }
+
+  public void syncAppToGui() {
+    controllers.forEach(C::reset);
+  }
+
+  public abstract void syncAppToDisk();
+
+  public abstract void syncDiskToGui();
 
   public void load(){
     try{

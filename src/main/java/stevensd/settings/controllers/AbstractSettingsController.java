@@ -5,22 +5,29 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.Initializable;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * TODO: Add concept of Grouped properties and Ordered Grouped properties
+ */
 public abstract class AbstractSettingsController implements Initializable {
-  public HashMap<Property, Property> propertyMap;
+  public LinkedHashMap<Property, Property> propertyMap;
 
   public SimpleBooleanProperty isChanged;
 
   public AbstractSettingsController() {
-    propertyMap = new HashMap<>();
+    propertyMap = new LinkedHashMap<>();
     isChanged = new SimpleBooleanProperty(false);
   }
 
   /**
-   * Add a {@link Property} object for monitoring.
+   * Add any number of {@link Property} objects for monitoring.
    *
-   * Creates a new {@link SimpleObjectProperty} to keep the last applied state of the provided property.
+   * The properties will be iterated in the order they are added.
+   *
+   * For each property provided, a new {@link SimpleObjectProperty} is created to hold the last applied state of the
+   * provided property. It can then compare the two to determine when a change has occurred.
    * @param properties
    */
   public void addProperties(Property... properties){
@@ -32,10 +39,13 @@ public abstract class AbstractSettingsController implements Initializable {
 
 
   /**
-   * Add a property and a listener.
+   * Add a single property and a listener.
    *
-   * The listener will be applied to the applied SimpleObjectProperty which allows the user to be notified when a
-   * specific property has been changed via apply.
+   * Properties will be iterated in the order they are added. For example, assuming two properties have been changed,
+   * during the application of these changes, the property added first, will be the first to be applied.
+   *
+   * The listener will NOT be applied to the provided property but to one that is created to mirror the provided
+   * property.
    * @param property {@link Property} object to be monitored. This should be the property of the GUI object.
    * @param listener {@link ChangeListener} A listener added to the newly created SimpeObjectProperty
    * @param <T>
@@ -45,6 +55,18 @@ public abstract class AbstractSettingsController implements Initializable {
     SimpleObjectProperty<T> applied = new SimpleObjectProperty<>(property.getValue());
     applied.addListener(listener);
     propertyMap.put(property, applied);
+  }
+
+  /**
+   * Return the auto generated property which is mapped to a provided property.
+   *
+   *
+   * @param property the key to the auto-generated property
+   * @param <T>
+   * @return
+   */
+  public <T> Property<T> getAppliedProperty(Property<T> property){
+    return propertyMap.get(property);
   }
 
   /**

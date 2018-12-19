@@ -12,20 +12,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public abstract class AbstractSettingsDialogController<T extends Setting> implements Initializable {
-
-  // =================== Non FXML propertyMap ==================
+public abstract class AbstractSettingsDialogController<T extends Setting, C extends AbstractSettingsController> implements Initializable {
 
   public SettingsViewController<T> settingsViewController;
 
-  public ArrayList<AbstractSettingsController> controllers;
+  public ArrayList<C> controllers;
 
   public SimpleBooleanProperty isChanged;
 
   public Pane settingsPane;
 
   public Stage stage;
-
 
 
   @Override
@@ -42,30 +39,19 @@ public abstract class AbstractSettingsDialogController<T extends Setting> implem
   }
 
   public AbstractSettingsDialogController(Stage stage) {
-    this.stage = stage;
+    setStage(stage);
     settingsViewController = new SettingsViewController<>();
     controllers = new ArrayList<>();
     isChanged = new SimpleBooleanProperty();
   }
 
-  public void syncGuiToApp() {
-    controllers.forEach(AbstractSettingsController::apply);
-  }
-
-  public void syncAppToGui() {
-    controllers.forEach(AbstractSettingsController::reset);
-  }
-
-  public abstract void syncAppToDisk();
-
-  public abstract void syncDiskToGui();
 
   public void close(){
     stage.close();
   }
 
-  public void addControllers(AbstractSettingsController... array){
-    for (AbstractSettingsController c: array){
+  public void addControllers(C... array){
+    for (C c: array){
       controllers.add(c);
       c.isChanged.addListener((observable, oldValue, newValue) -> {
         boolean val = newValue;
@@ -77,7 +63,13 @@ public abstract class AbstractSettingsDialogController<T extends Setting> implem
     }
   }
 
+  public Stage getStage() {
+    return stage;
+  }
 
+  public void setStage(Stage stage) {
+    this.stage = stage;
+  }
 
   public SettingsViewController<T> getSettingsViewController() {
     return settingsViewController;
