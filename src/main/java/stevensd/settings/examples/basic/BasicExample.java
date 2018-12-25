@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import stevensd.settings.Setting;
+import stevensd.settings.examples.ConcreteSettingsDialogController;
 
 
 public class BasicExample extends Application {
@@ -20,12 +21,12 @@ public class BasicExample extends Application {
     ConcreteSettingsDialogController<Setting> dialogController = new ConcreteSettingsDialogController<>(primaryStage, Setting.class);
 
     // Add settings by providing urls to *.fxml documents and corresponding controllers.
-    Setting s1 = dialogController.createAndAdd("setting1", "/exampleSettings/setting1.fxml", new Setting1Controller());
-    Setting s2 = dialogController.createAndAdd("setting2", "/exampleSettings/setting2.fxml", new Setting2Controller());
+    Setting s1 = dialogController.createAndAdd("setting1", "/examples/basic/setting1.fxml", new Setting1Controller());
+    Setting s2 = dialogController.createAndAdd("setting2", "/examples/basic/setting2.fxml", new Setting2Controller());
 
     // Same as above except that these are sub-settings (belong under a more general setting) so there parent setting must be provided
-    dialogController.createAndAdd("setting2-1", "/exampleSettings/setting2-1.fxml", new Setting21Controller(), s2);
-    dialogController.createAndAdd("setting2-2", "/exampleSettings/setting2-2.fxml", new Setting22Controller(), s2);
+    dialogController.createAndAdd("setting2-1", "/examples/basic/setting2-1.fxml", new Setting21Controller(), s2);
+    dialogController.createAndAdd("setting2-2", "/examples/basic/setting2-2.fxml", new Setting22Controller(), s2);
 
     // Show the settings pane everytime `btn` is clicked
     Scene settingsScene = new Scene(dialogController.getPane());

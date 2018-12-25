@@ -3,7 +3,10 @@ package stevensd.settings.controllers;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.Initializable;
 import org.junit.*;
+import stevensd.settings.PropertyGroup;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,7 +17,7 @@ public class AbstractSettinsControllersTest {
   /**
    * A very simple concrete implementation
    */
-  public class ConcreteSettingsController extends AbstractSettingsController{
+  public class ConcreteSettingsController extends PropertyGroup implements Initializable {
     public ConcreteSettingsController() {
       super();
     }

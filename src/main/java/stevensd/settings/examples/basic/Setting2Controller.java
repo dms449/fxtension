@@ -1,16 +1,17 @@
 package stevensd.settings.examples.basic;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
-import stevensd.settings.controllers.AbstractSettingsController;
+import stevensd.settings.PropertyGroup;
 
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-public class Setting2Controller extends AbstractSettingsController {
+public class Setting2Controller extends PropertyGroup implements Initializable {
   @FXML
   public DatePicker datePicker;
   @FXML
@@ -29,9 +30,9 @@ public class Setting2Controller extends AbstractSettingsController {
     super();
   }
 
-  @Override
-  public void onChanged() {
-    System.out.println("At least one property has been changed");
-  }
+//  @Override
+//  public void onChanged() {
+//    System.out.println("At least one property has been changed");
+//  }
 
 }

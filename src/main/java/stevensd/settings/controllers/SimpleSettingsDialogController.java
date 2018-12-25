@@ -8,13 +8,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import stevensd.settings.PropertyGroup;
 import stevensd.settings.Setting;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class SimpleSettingsDialogController<T extends Setting, C extends AbstractSettingsController> extends SettingsDialogFactoryController<T,C> {
+public abstract class SimpleSettingsDialogController<T extends Setting> extends SettingsDialogFactoryController<T> {
   @FXML
   public VBox vbox;
   @FXML
@@ -72,11 +73,11 @@ public abstract class SimpleSettingsDialogController<T extends Setting, C extend
 
 
   public void syncGuiToApp() {
-    controllers.forEach(C::apply);
+    children.forEach(PropertyGroup::apply);
   }
 
   public void syncAppToGui() {
-    controllers.forEach(C::reset);
+    children.forEach(PropertyGroup::reset);
   }
 
   public abstract void syncAppToDisk();

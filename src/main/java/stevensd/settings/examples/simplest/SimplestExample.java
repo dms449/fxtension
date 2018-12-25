@@ -15,7 +15,7 @@ import stevensd.settings.controllers.SettingsViewController;
 import java.io.IOException;
 
 /**
- * This example only demonstrates the most barebones approach of creating and showing settings. Emulating this approach
+ * This examples only demonstrates the most barebones approach of creating and showing settings. Emulating this approach
  * will probably not be sufficient for most applications.
  */
 public class SimplestExample extends Application {
@@ -23,7 +23,7 @@ public class SimplestExample extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // This is the controller behind the SettingsView. This is NOT the controller behind each individual settings
-        // pane. In this very simple example, the individual setting panes do not have a controller.
+        // pane. In this very simple examples, the individual setting panes do not have a controller.
         // The SettingsViewController doesn't need to know or interact with the individual setting controllers.
         SettingsViewController<Setting> svc = new SettingsViewController<>();
 

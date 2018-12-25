@@ -5,20 +5,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import stevensd.settings.PropertyGroup;
 import stevensd.settings.Setting;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public abstract class AbstractSettingsDialogController<T extends Setting, C extends AbstractSettingsController> implements Initializable {
+public abstract class AbstractSettingsDialogController<T extends Setting> extends PropertyGroup implements Initializable {
 
   public SettingsViewController<T> settingsViewController;
 
-  public ArrayList<C> controllers;
-
-  public SimpleBooleanProperty isChanged;
+//  public SimpleBooleanProperty isChanged;
 
   public Pane settingsPane;
 
@@ -41,26 +41,12 @@ public abstract class AbstractSettingsDialogController<T extends Setting, C exte
   public AbstractSettingsDialogController(Stage stage) {
     setStage(stage);
     settingsViewController = new SettingsViewController<>();
-    controllers = new ArrayList<>();
     isChanged = new SimpleBooleanProperty();
   }
 
 
   public void close(){
     stage.close();
-  }
-
-  public void addControllers(C... array){
-    for (C c: array){
-      controllers.add(c);
-      c.isChanged.addListener((observable, oldValue, newValue) -> {
-        boolean val = newValue;
-        for (AbstractSettingsController controller: controllers){
-          val = val || controller.isChanged.getValue();
-        }
-        isChanged.setValue(val);
-      });
-    }
   }
 
   public Stage getStage() {
