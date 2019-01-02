@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 import stevensd.settings.Setting;
 import stevensd.settings.examples.ConcreteSettingsDialogController;
 
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Paths;
+
 
 public class FullExample extends Application {
 
@@ -21,12 +25,12 @@ public class FullExample extends Application {
     ConcreteSettingsDialogController<Setting> dialogController = new ConcreteSettingsDialogController<>(primaryStage, Setting.class);
 
     // Add settings by providing urls to *.fxml documents and corresponding controllers.
-    Setting s1 = dialogController.createAndAdd("Simple", "/examples/full/simpleIndependentSettings.fxml", new SimpleIndependentSettings());
-    Setting s2 = dialogController.createAndAdd("Lists", "/examples/full/listSettings.fxml", new ListSettingsController());
+    Setting s1 = dialogController.createAndAdd("Simple", getClass().getResource("/examples/full/simpleIndependentSettings.fxml"), new SimpleIndependentSettings());
+    Setting s2 = dialogController.createAndAdd("Lists", getClass().getResource("/examples/full/listSettings.fxml"), new ListSettingsController());
 
     // Same as above except that these are sub-settings (belong under a more general setting) so there parent setting must be provided
-    dialogController.createAndAdd("Simple List", "/examples/full/simpleList.fxml", new SimpleListController(), s2);
-    dialogController.createAndAdd("Complex List", "/examples/full/complexList.fxml", new ComplexListController(), s2);
+    dialogController.createAndAdd("Simple List",  getClass().getResource("/examples/full/simpleList.fxml"), new SimpleListController(), s2);
+    dialogController.createAndAdd("Complex List",  getClass().getResource("/examples/full/complexList.fxml"), new ComplexListController(), s2);
 
     // groups
 //    dialogController.createAndAdd("Groups", "/examples/full/setting2-2.fxml", new Setting22Controller(), s2);

@@ -42,7 +42,7 @@ public class SimplestExample extends Application {
             // load the settings view
             FXMLLoader loader = new FXMLLoader();
             loader.setController(svc);
-            loader.setLocation(AbstractSettingsDialogController .class.getResource("/SettingsView.fxml"));
+            loader.setLocation(AbstractSettingsDialogController.class.getResource("/SettingsView.fxml"));
             Pane settingsPane = loader.load();
 
 

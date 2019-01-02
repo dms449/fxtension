@@ -6,6 +6,8 @@ import stevensd.settings.PropertyGroup;
 import stevensd.settings.Setting;
 import stevensd.settings.SettingsFactory;
 
+import java.net.URL;
+
 public abstract class SettingsDialogFactoryController<T extends Setting> extends AbstractSettingsDialogController<T> {
   public SettingsFactory<T> factory;
 
@@ -21,7 +23,7 @@ public abstract class SettingsDialogFactoryController<T extends Setting> extends
    * @param controller The controller that goes with the setting
    * @return
    */
-  public <A extends PropertyGroup & Initializable> T createAndAdd(String name, String resource, A controller){
+  public <A extends PropertyGroup & Initializable> T createAndAdd(String name, URL resource, A controller){
     addGroup(controller);
     return factory.createAndAdd(name, resource, controller);
   }
@@ -34,7 +36,7 @@ public abstract class SettingsDialogFactoryController<T extends Setting> extends
    * @param parent A {@link Setting} which is the parent of this new setting.
    * @return The newly created setting
    */
-  public <A extends PropertyGroup & Initializable> T createAndAdd(String name, String resource, A controller, T parent){
+  public <A extends PropertyGroup & Initializable> T createAndAdd(String name, URL resource, A controller, T parent){
     addGroup(controller);
     return factory.createAndAdd(name, resource, controller, parent);
   }
