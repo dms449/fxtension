@@ -1,4 +1,4 @@
-package stevensd.settings.examples.basic;
+package stevensd.settings.examples.full;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -9,7 +9,7 @@ import stevensd.settings.Setting;
 import stevensd.settings.examples.ConcreteSettingsDialogController;
 
 
-public class BasicExample extends Application {
+public class FullExample extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -21,12 +21,15 @@ public class BasicExample extends Application {
     ConcreteSettingsDialogController<Setting> dialogController = new ConcreteSettingsDialogController<>(primaryStage, Setting.class);
 
     // Add settings by providing urls to *.fxml documents and corresponding controllers.
-    Setting s1 = dialogController.createAndAdd("setting1", "/examples/basic/setting1.fxml", new Setting1Controller());
-    Setting s2 = dialogController.createAndAdd("setting2", "/examples/basic/setting2.fxml", new Setting2Controller());
+    Setting s1 = dialogController.createAndAdd("Simple", "/examples/full/simpleIndependentSettings.fxml", new SimpleIndependentSettings());
+    Setting s2 = dialogController.createAndAdd("Lists", "/examples/full/listSettings.fxml", new ListSettingsController());
 
     // Same as above except that these are sub-settings (belong under a more general setting) so there parent setting must be provided
-    dialogController.createAndAdd("setting2-1", "/examples/basic/setting2-1.fxml", new Setting21Controller(), s2);
-    dialogController.createAndAdd("setting2-2", "/examples/basic/setting2-2.fxml", new Setting22Controller(), s2);
+    dialogController.createAndAdd("Simple List", "/examples/full/simpleList.fxml", new SimpleListController(), s2);
+    dialogController.createAndAdd("Complex List", "/examples/full/complexList.fxml", new ComplexListController(), s2);
+
+    // groups
+//    dialogController.createAndAdd("Groups", "/examples/full/setting2-2.fxml", new Setting22Controller(), s2);
 
     // Show the settings pane everytime `btn` is clicked
     Scene settingsScene = new Scene(dialogController.getPane());

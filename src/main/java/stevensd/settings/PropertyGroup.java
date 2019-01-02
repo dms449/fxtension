@@ -1,17 +1,21 @@
 package stevensd.settings;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ */
 public class PropertyGroup {
     public HashMap<Property, Property> propertyMap = new HashMap<>();
+    public HashMap<ListProperty, ListProperty> listPropertyMap = new HashMap<>();
     public ArrayList<PropertyGroup> children = new ArrayList<>();
 
     public SimpleBooleanProperty isChanged = new SimpleBooleanProperty(false);
@@ -33,15 +37,26 @@ public class PropertyGroup {
     }
 
     /**
+     * Add a Property<T> to this group
+     *
+     * @param property
+     * @param <T>
+     */
+    public <T> void addProperty(Property<T> property){
+        property.addListener((observable, oldValue, newValue) -> isChanged.setValue(isChanged()));
+        SimpleObjectProperty<T> applied = new SimpleObjectProperty<>(property.getValue());
+        propertyMap.put(property, applied);
+    }
+
+    /**
      * Add a {@link Property} object for monitoring.
      *
      * Creates a new {@link SimpleObjectProperty} to keep the last applied state of the provided property.
      * @param properties
      */
     public void addProperties(Property... properties){
-        for (Property obj: properties){
-            obj.addListener(observable -> isChanged.setValue(isChanged()));
-            propertyMap.put(obj,  new SimpleObjectProperty<>(obj.getValue()));
+        for (Property property: properties){
+            addProperty(property);
         }
     }
 
@@ -56,10 +71,8 @@ public class PropertyGroup {
      * @param <T>
      */
     public <T> void addProperty(Property<T> property, ChangeListener<T> listener){
-        property.addListener(observable -> isChanged.setValue(isChanged()));
-        SimpleObjectProperty<T> applied = new SimpleObjectProperty<>(property.getValue());
-        applied.addListener(listener);
-        propertyMap.put(property, applied);
+        addProperty(property);
+        propertyMap.get(property).addListener(listener);
     }
 
     /**
@@ -71,11 +84,60 @@ public class PropertyGroup {
     }
 
     /**
-     * Add a grou
+     * Add any number of ListProperty objects to this group.
+     *
+     * @param properties
+     * @param <T>
+     */
+    public <T> void addListProperties(ListProperty<T>... properties){
+        for (ListProperty<T> listProperty: properties){
+            addListProperty(listProperty);
+        }
+    }
+
+    /**
+     * Add A ListProperty and attach a ListChangeListener to the newly created applied ListProperty
+     *
+     * @param listProperty
+     * @param listener
+     * @param <T>
+     */
+    public <T> void addListProperty(ListProperty<T> listProperty, ListChangeListener<T> listener){
+        addListProperty(listProperty);
+        listPropertyMap.get(listProperty).addListener(listener);
+    }
+
+    /**
+     *
+     *
+     * @param listProperty
+     * @param <T>
+     */
+    public <T> void addListProperty(ListProperty<T> listProperty){
+        listProperty.addListener(new ListChangeListener<T>() {
+            @Override
+            public void onChanged(Change<? extends T> c) {
+                isChanged.setValue(isChanged());
+            }
+        });
+        SimpleListProperty<T> applied = new SimpleListProperty<>(FXCollections.observableArrayList(listProperty));
+        listPropertyMap.put(listProperty, applied);
+    }
+
+    /**
+     * Remove A ListProperty
+     * @param listProperty
+     */
+    public void removeListProperty(ListProperty listProperty){
+        listPropertyMap.remove(listProperty);
+    }
+
+    /**
+     * Add a group
      * @param group
      */
     public void addGroup(PropertyGroup group){
-        group.isChanged.addListener(observable -> isChanged.setValue(isChanged()));
+        group.isChanged.addListener((observable, oldValue, newValue) -> isChanged.setValue(isChanged()));
         children.add(group);
     }
 
@@ -136,6 +198,19 @@ public class PropertyGroup {
             }
         }
 
+        // check if any of the list properties of changed
+        for (Map.Entry<ListProperty, ListProperty> entry: listPropertyMap.entrySet()){
+            if (entry.getKey().getValue() != null){
+                if (!entry.getKey().getValue().equals(entry.getValue().getValue())){
+                    return true;
+                }
+            } else {
+                if (entry.getValue().getValue() != null){
+                    return true;
+                }
+            }
+        }
+
         // check if any of the groups have changed
         return children.stream().anyMatch(PropertyGroup::isChanged);
     }
@@ -143,7 +218,7 @@ public class PropertyGroup {
     /**
      * Applies changes made in 'gui' items to those 'applied'.
      *
-     * After updating the values in 'applied' to match those in 'gui', {@link AbstractSettingsController ::onChanged} is
+     * After updating the values in 'applied' to match those in 'gui', {@link PropertyGroup ::onChanged} is
      * called to give the user the ability to take action since something has changed.
      */
     public void apply(){
@@ -152,6 +227,18 @@ public class PropertyGroup {
             for (Map.Entry<Property, Property> entry: propertyMap.entrySet()){
                 entry.getValue().setValue(entry.getKey().getValue());
             }
+
+            for (Map.Entry<ListProperty, ListProperty> entry: listPropertyMap.entrySet()){
+                entry.getKey().forEach(each -> {
+                    ListProperty applied = entry.getValue();
+                    if (!applied.contains(each)){
+                        applied.add(each);
+                    }
+                });
+
+                entry.getValue().retainAll(entry.getKey());
+            }
+
 
             // call this method on all of its children groups
             children.forEach(PropertyGroup::apply);
@@ -168,13 +255,25 @@ public class PropertyGroup {
     }
 
     /**
-     * Basically does the opposite of {@link AbstractSettingsController::apply} by updating the key values with the value
+     * Basically does the opposite of {@link PropertyGroup::apply} by updating the key values with the value
      * values.
      */
     public void reset(){
         // reset the properties
         for (Map.Entry<Property, Property> entry: propertyMap.entrySet()){
             entry.getKey().setValue(entry.getValue().getValue());
+        }
+
+        // reset the list properties
+        for (Map.Entry<ListProperty, ListProperty> entry: listPropertyMap.entrySet()){
+            entry.getValue().forEach(each -> {
+                ListProperty key = entry.getKey();
+                if (!key.contains(each)){
+                    key.add(each);
+                }
+            });
+
+            entry.getKey().retainAll(entry.getValue());
         }
 
         // reset all children groups

@@ -1,4 +1,4 @@
-package stevensd.settings.examples.basic;
+package stevensd.settings.examples.full;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

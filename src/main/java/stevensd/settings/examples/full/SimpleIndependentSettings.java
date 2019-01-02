@@ -1,4 +1,4 @@
-package stevensd.settings.examples.basic;
+package stevensd.settings.examples.full;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,7 +10,7 @@ import stevensd.settings.PropertyGroup;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Setting1Controller extends PropertyGroup implements Initializable {
+public class SimpleIndependentSettings extends PropertyGroup implements Initializable {
   @FXML
   public TextField textField;
   @FXML
@@ -38,7 +38,7 @@ public class Setting1Controller extends PropertyGroup implements Initializable {
     this.addListeners(()->System.out.println("Setting 1 changed"));
   }
 
-  public Setting1Controller() {
+  public SimpleIndependentSettings() {
     super();
   }
 
