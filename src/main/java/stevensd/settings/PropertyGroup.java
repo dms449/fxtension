@@ -11,19 +11,39 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * A class for detecting and acting on changes made to {@link Property} objects
  *
+ * TODO:
  */
 public class PropertyGroup {
     public HashMap<Property, Property> propertyMap = new HashMap<>();
     public HashMap<ListProperty, ListProperty> listPropertyMap = new HashMap<>();
     public ArrayList<PropertyGroup> children = new ArrayList<>();
 
+    /**
+     * TODO:
+     */
     public SimpleBooleanProperty isChanged = new SimpleBooleanProperty(false);
 
+    /**
+     * TODO:
+     */
     public ArrayList<PropertyGroupListener> listeners = new ArrayList<>();
 
+
     /**
-     * Contsruct a new PropertyGroup from a list of properties
+     * Constructors
+     * ========================================================================================
+     */
+
+    /**
+     * Default constructor.
+     */
+    public PropertyGroup() {
+    }
+
+    /**
+     * Construct a new PropertyGroup from a list of properties
      * @param properties
      */
     public PropertyGroup(Property... properties) {
@@ -31,10 +51,19 @@ public class PropertyGroup {
     }
 
     /**
-     * Default constructor.
+     * Construct a new PropertyGroup from a list of properties and a listener
+     * @param listener A listener to for this group
+     * @param properties A list of properties to be added to the propertyMap
      */
-    public PropertyGroup() {
+    public PropertyGroup(PropertyGroupListener listener, Property... properties){
+        addProperties(properties);
+        addListener(listener);
     }
+
+    /**
+     * Adding/Removing Property objects
+     * ========================================================================================
+     */
 
     /**
      * Add a Property<T> to this group
@@ -67,7 +96,7 @@ public class PropertyGroup {
      * The listener will be applied to the applied SimpleObjectProperty which allows the user to be notified when a
      * specific property has been changed via apply.
      * @param property {@link Property} object to be monitored. This should be the property of the GUI object.
-     * @param listener {@link ChangeListener} A listener added to the newly created SimpeObjectProperty
+     * @param listener {@link ChangeListener} A listener bound to the newly created SimpleObjectProperty
      * @param <T>
      */
     public <T> void addProperty(Property<T> property, ChangeListener<T> listener){
@@ -82,6 +111,12 @@ public class PropertyGroup {
     public void removeProperty(Property property){
         propertyMap.remove(property);
     }
+
+
+    /**
+     * Adding/Removing ListProperty objects
+     * ========================================================================================
+     */
 
     /**
      * Add any number of ListProperty objects to this group.
@@ -133,6 +168,11 @@ public class PropertyGroup {
     }
 
     /**
+     * Adding/Removing PropertyGroup objects
+     * ========================================================================================
+     */
+
+    /**
      * Add a group
      * @param group
      */
@@ -141,12 +181,39 @@ public class PropertyGroup {
         children.add(group);
     }
 
+    /**
+     * Add a group and attach a listener to it.
+     * @param group
+     * @param listener
+     */
+    public void addGroup(PropertyGroup group, PropertyGroupListener listener){
+        group.addListener(listener);
+        addGroup(group);
+    }
+
+    /**
+     * Remove a group
+     * @param group
+     */
     public void removeGroup(PropertyGroup group){
         children.remove(group);
     }
 
-    public void addListeners(PropertyGroupListener... listeners){
-        this.listeners.addAll(Arrays.asList(listeners));
+
+    /**
+     * Other methods
+     * ========================================================================================
+     */
+
+
+    /**
+     * Add a listener to this PropertyGroup.
+     *
+     * These listeners are called AFTER every property in the propertyMap has been updated
+     * @param listener
+     */
+    public void addListener(PropertyGroupListener listener){
+       listeners.add(listener);
     }
 
     /**
@@ -155,6 +222,13 @@ public class PropertyGroup {
      */
     public void removeListeners(PropertyGroupListener... listeners){
         this.listeners.removeAll(Arrays.asList(listeners));
+    }
+
+    /**
+     * Remove all listeners
+     */
+    public void removeAllListeners(){
+        this.listeners.clear();
     }
 
     /**
