@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import stevensd.settings.Setting;
@@ -32,7 +33,7 @@ public class FullExample extends Application {
     Setting s2 = dialogController.createAndAdd("Lists", getClass().getResource("/examples/full/listSettings.fxml"), new ListSettingsController());
 
     // Same as above except that these are sub-settings (belong under a more general setting) so there parent setting must be provided
-    dialogController.createAndAdd("Simple List",  getClass().getResource("/examples/full/simpleList.fxml"), new SimpleListController(), s2);
+    Setting s3 = dialogController.createAndAdd("Simple List",  getClass().getResource("/examples/full/simpleList.fxml"), new SimpleListController(), s2);
     dialogController.createAndAdd("Complex List",  getClass().getResource("/examples/full/complexList.fxml"), new ComplexListController(), s2);
 
     // groups

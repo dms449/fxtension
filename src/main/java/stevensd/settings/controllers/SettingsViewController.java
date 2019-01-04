@@ -87,6 +87,11 @@ public class SettingsViewController<T extends Setting> implements Initializable 
     Arrays.asList(setting).forEach(this::addSetting);
   }
 
+  /**
+   *
+   * @param setting
+   * @param treeItem
+   */
   public void addSetting(T setting, TreeItem<T> treeItem){
     TreeItem<T> item = new TreeItem<>(setting);
     setting.children.forEach(s -> this.addSetting((T)s, item));
@@ -95,21 +100,46 @@ public class SettingsViewController<T extends Setting> implements Initializable 
 
   /**
    * Remove a {@link Setting} object
+   *
    * @param setting A Setting object which supposedly resides on the tree
    */
   public void removeSetting(T setting){
+    root.getChildren().forEach(each -> removeSetting(setting, each));
     this.root.getChildren().removeIf(treeItem -> treeItem.getValue()==setting);
   }
 
   /**
-   * Remove a {@link Setting} object which is looked up by its String name
-   * @param s The String name of the Setting object
+   * Remove all occurances of the setting object in the provided TreeItem
    */
-  public void removeSetting(String s){
-    this.root.getChildren().removeIf(treeItem -> treeItem.getValue().getName().equals(s));
+  public void removeSetting(T setting, TreeItem<T> treeItem){
+    treeItem.getChildren().removeIf(treeItem1 -> treeItem1.getValue().equals(setting));
+    treeItem.getChildren().forEach(each -> removeSetting(setting, each));
   }
 
-  public void createAndAdd(String name, String resource,  Initializable controller){
+  /**
+   * Attempt to get and return the tree item associated with this setting
+   * @param setting
+   * @return
+   */
+//  public TreeItem<T> getTreeItem(T setting){
+//    root.getChildren().forEach(each->getTreeItem(setting, each));
+//
+//  }
 
+  /**
+   * Iteratively attempt to find the TreeItem which corresponds to the setting
+   *
+   * @param setting
+   * @param treeItem
+   * @return
+   */
+  public TreeItem<T> getTreeItem(T setting, TreeItem<T> treeItem){
+    if (treeItem.getValue().equals(setting)){
+      return treeItem;
+    }else {
+      treeItem.getChildren().forEach(each -> getTreeItem(setting, each));
+    }
+    return null;
   }
+
 }

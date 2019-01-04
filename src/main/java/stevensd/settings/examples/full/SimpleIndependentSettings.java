@@ -32,10 +32,10 @@ public class SimpleIndependentSettings extends PropertyGroup implements Initiali
     PropertyGroup group = new PropertyGroup();
     group.addProperty(textField.textProperty(), (observable, oldValue, newValue) -> System.out.println("text field changed to: "+newValue));
     group.addProperty(combo.valueProperty(), (observable, oldValue, newValue) -> System.out.println("combo changed to: "+newValue));
-    group.addListeners(()->System.out.println("Group was changed"));
+    group.addListener(()->System.out.println("Group was changed"));
     addGroup(group);
 
-    this.addListeners(()->System.out.println("Setting 1 changed"));
+    this.addListener(()->System.out.println("Setting 1 changed"));
   }
 
   public SimpleIndependentSettings() {
