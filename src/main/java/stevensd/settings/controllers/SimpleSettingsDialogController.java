@@ -1,5 +1,6 @@
 package stevensd.settings.controllers;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import stevensd.settings.Setting;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public abstract class SimpleSettingsDialogController<T extends Setting> extends SettingsDialogFactoryController<T> {
   @FXML
@@ -34,6 +36,8 @@ public abstract class SimpleSettingsDialogController<T extends Setting> extends 
   // =================== Non FXML propertyMap ==================
 
   public Pane mainPane;
+
+  public Stage stage;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -67,10 +71,9 @@ public abstract class SimpleSettingsDialogController<T extends Setting> extends 
     isChanged.addListener( (observable, oldValue, newValue) -> applyBtn.setDisable(!newValue));
   }
 
-  public SimpleSettingsDialogController(Stage stage, Class<T> clazz) {
-    super(stage, clazz);
+  public SimpleSettingsDialogController(Class<T> clazz) {
+    super(clazz);
   }
-
 
   public void syncGuiToApp() {
     children.forEach(PropertyGroup::apply);
@@ -95,10 +98,20 @@ public abstract class SimpleSettingsDialogController<T extends Setting> extends 
     }
   }
 
+  public void close(){
+    if (stage != null){
+      stage.close();
+    }
+  }
+
   public Pane getPane(){
     if (mainPane == null){
       load();
     }
     return mainPane;
+  }
+
+  public void setStage(Stage stage) {
+    this.stage = stage;
   }
 }

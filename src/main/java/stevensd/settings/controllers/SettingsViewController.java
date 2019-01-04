@@ -88,14 +88,14 @@ public class SettingsViewController<T extends Setting> implements Initializable 
   }
 
   public void addSetting(T setting, TreeItem<T> treeItem){
-    TreeItem item = new TreeItem<>(setting);
+    TreeItem<T> item = new TreeItem<>(setting);
     setting.children.forEach(s -> this.addSetting((T)s, item));
     treeItem.getChildren().add(item);
   }
 
   /**
    * Remove a {@link Setting} object
-   * @param setting A Setting object supposedly add to the tree
+   * @param setting A Setting object which supposedly resides on the tree
    */
   public void removeSetting(T setting){
     this.root.getChildren().removeIf(treeItem -> treeItem.getValue()==setting);
@@ -106,7 +106,7 @@ public class SettingsViewController<T extends Setting> implements Initializable 
    * @param s The String name of the Setting object
    */
   public void removeSetting(String s){
-    this.root.getChildren().removeIf(treeItem -> treeItem.getValue().getName()==s);
+    this.root.getChildren().removeIf(treeItem -> treeItem.getValue().getName().equals(s));
   }
 
   public void createAndAdd(String name, String resource,  Initializable controller){

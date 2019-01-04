@@ -10,19 +10,13 @@ import stevensd.settings.Setting;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public abstract class AbstractSettingsDialogController<T extends Setting> extends PropertyGroup implements Initializable {
 
   public SettingsViewController<T> settingsViewController;
 
-//  public SimpleBooleanProperty isChanged;
-
   public Pane settingsPane;
-
-  public Stage stage;
 
 
   @Override
@@ -38,23 +32,9 @@ public abstract class AbstractSettingsDialogController<T extends Setting> extend
     }
   }
 
-  public AbstractSettingsDialogController(Stage stage) {
-    setStage(stage);
+  public AbstractSettingsDialogController() {
     settingsViewController = new SettingsViewController<>();
     isChanged = new SimpleBooleanProperty();
-  }
-
-
-  public void close(){
-    stage.close();
-  }
-
-  public Stage getStage() {
-    return stage;
-  }
-
-  public void setStage(Stage stage) {
-    this.stage = stage;
   }
 
   public SettingsViewController<T> getSettingsViewController() {
@@ -63,5 +43,13 @@ public abstract class AbstractSettingsDialogController<T extends Setting> extend
 
   public void setSettingsViewController(SettingsViewController<T> settingsViewController) {
     this.settingsViewController = settingsViewController;
+  }
+
+  public void selectFirst(){
+    settingsViewController.treeView.getSelectionModel().selectFirst();
+  }
+
+  public void select(T setting){
+//    settingsViewController.treeView.getSelectionModel().select(setting)
   }
 }

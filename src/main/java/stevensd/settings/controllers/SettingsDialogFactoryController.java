@@ -11,8 +11,7 @@ import java.net.URL;
 public abstract class SettingsDialogFactoryController<T extends Setting> extends AbstractSettingsDialogController<T> {
   public SettingsFactory<T> factory;
 
-  public SettingsDialogFactoryController(Stage stage, Class<T> clazz) {
-    super(stage);
+  public SettingsDialogFactoryController(Class<T> clazz) {
     this.factory = new SettingsFactory<>(clazz ,getSettingsViewController());
   }
 
