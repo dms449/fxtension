@@ -1,5 +1,6 @@
 package stevensd.settings.controllers;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -8,13 +9,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import stevensd.settings.PropertyGroup;
 import stevensd.settings.Setting;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
-public abstract class SimpleSettingsDialogController<T extends Setting, C extends AbstractSettingsController> extends SettingsDialogFactoryController<T,C> {
+public abstract class SimpleSettingsDialogController<T extends Setting> extends SettingsDialogFactoryController<T> {
   @FXML
   public VBox vbox;
   @FXML
@@ -33,6 +36,8 @@ public abstract class SimpleSettingsDialogController<T extends Setting, C extend
   // =================== Non FXML propertyMap ==================
 
   public Pane mainPane;
+
+  public Stage stage;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -66,17 +71,16 @@ public abstract class SimpleSettingsDialogController<T extends Setting, C extend
     isChanged.addListener( (observable, oldValue, newValue) -> applyBtn.setDisable(!newValue));
   }
 
-  public SimpleSettingsDialogController(Stage stage, Class<T> clazz) {
-    super(stage, clazz);
+  public SimpleSettingsDialogController(Class<T> clazz) {
+    super(clazz);
   }
 
-
   public void syncGuiToApp() {
-    controllers.forEach(C::apply);
+    children.forEach(PropertyGroup::apply);
   }
 
   public void syncAppToGui() {
-    controllers.forEach(C::reset);
+    children.forEach(PropertyGroup::reset);
   }
 
   public abstract void syncAppToDisk();
@@ -94,10 +98,20 @@ public abstract class SimpleSettingsDialogController<T extends Setting, C extend
     }
   }
 
+  public void close(){
+    if (stage != null){
+      stage.close();
+    }
+  }
+
   public Pane getPane(){
     if (mainPane == null){
       load();
     }
     return mainPane;
+  }
+
+  public void setStage(Stage stage) {
+    this.stage = stage;
   }
 }

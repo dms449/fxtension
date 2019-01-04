@@ -8,6 +8,7 @@ import stevensd.settings.controllers.SettingsViewController;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.function.Consumer;
 
 /**
@@ -65,11 +66,11 @@ public class SettingsFactory<T extends Setting> {
    * @param controller The controller that goes with the setting
    * @return
    */
-  public T create(String name, String resource, Initializable controller){
+  public T create(String name, URL resource, Initializable controller){
     try{
       FXMLLoader loader = new FXMLLoader();
       loader.setController(controller);
-      loader.setLocation(getClass().getResource(resource));
+      loader.setLocation(resource);
 
       AnchorPane anchorPane = loader.load();
 
@@ -98,7 +99,7 @@ public class SettingsFactory<T extends Setting> {
    * @param controller The controller that goes with the setting
    * @return
    */
-  public T createAndAdd(String name, String resource, Initializable controller){
+  public T createAndAdd(String name, URL resource, Initializable controller){
     T setting = create(name, resource, controller);
     settingsController.addSetting(setting);
     return setting;
@@ -112,7 +113,7 @@ public class SettingsFactory<T extends Setting> {
    * @param parent A {@link Setting} which is the parent of this new setting.
    * @return The newly created setting
    */
-  public T createAndAdd(String name, String resource, Initializable controller, T parent){
+  public T createAndAdd(String name, URL resource, Initializable controller, T parent){
     T setting = create(name, resource, controller);
     parent.add(setting);
     return setting;

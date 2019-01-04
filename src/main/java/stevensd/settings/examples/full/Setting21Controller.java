@@ -1,13 +1,14 @@
-package stevensd.settings.examples.basic;
+package stevensd.settings.examples.full;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
-import stevensd.settings.controllers.AbstractSettingsController;
+import stevensd.settings.PropertyGroup;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Setting21Controller extends AbstractSettingsController {
+public class Setting21Controller extends PropertyGroup implements Initializable {
   @FXML
   public RadioButton radio1;
   @FXML
@@ -24,10 +25,10 @@ public class Setting21Controller extends AbstractSettingsController {
     super();
   }
 
-  @Override
-  public void onChanged() {
-    System.out.println("Setting 2-1 changed");
+//  @Override
+//  public void onChanged() {
+//    System.out.println("Setting 2-1 changed");
 
-  }
+//  }
 
 }

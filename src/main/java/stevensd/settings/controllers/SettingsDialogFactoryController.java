@@ -2,14 +2,16 @@ package stevensd.settings.controllers;
 
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
+import stevensd.settings.PropertyGroup;
 import stevensd.settings.Setting;
 import stevensd.settings.SettingsFactory;
 
-public abstract class SettingsDialogFactoryController<T extends Setting, C extends AbstractSettingsController> extends AbstractSettingsDialogController<T, C> {
+import java.net.URL;
+
+public abstract class SettingsDialogFactoryController<T extends Setting> extends AbstractSettingsDialogController<T> {
   public SettingsFactory<T> factory;
 
-  public SettingsDialogFactoryController(Stage stage, Class<T> clazz) {
-    super(stage);
+  public SettingsDialogFactoryController(Class<T> clazz) {
     this.factory = new SettingsFactory<>(clazz ,getSettingsViewController());
   }
 
@@ -20,8 +22,8 @@ public abstract class SettingsDialogFactoryController<T extends Setting, C exten
    * @param controller The controller that goes with the setting
    * @return
    */
-  public T createAndAdd(String name, String resource, C controller){
-    addControllers(controller);
+  public <A extends PropertyGroup & Initializable> T createAndAdd(String name, URL resource, A controller){
+    addGroup(controller);
     return factory.createAndAdd(name, resource, controller);
   }
 
@@ -33,8 +35,8 @@ public abstract class SettingsDialogFactoryController<T extends Setting, C exten
    * @param parent A {@link Setting} which is the parent of this new setting.
    * @return The newly created setting
    */
-  public T createAndAdd(String name, String resource, C controller, T parent){
-    addControllers(controller);
+  public <A extends PropertyGroup & Initializable> T createAndAdd(String name, URL resource, A controller, T parent){
+    addGroup(controller);
     return factory.createAndAdd(name, resource, controller, parent);
   }
 }
