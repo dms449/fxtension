@@ -108,11 +108,10 @@ idea {
  */
 def git_describe() {
     def git_description = "${SettingsDialogVersion}";
-    try{
-        git_description = "git -C ${projectDir} describe --long --always HEAD".execute().text.trim()
-    } catch (java.lang.Exception e){
+    try {
+        git_description = "git -C \"${projectDir}\" describe --long --always HEAD".execute().text.trim()
+    } catch (java.lang.Exception e) {
         /// do nothing
     }
-//    git_description.substring(0, git_description.indexOf("-"))
     git_description
-} // git_describe()
+}
