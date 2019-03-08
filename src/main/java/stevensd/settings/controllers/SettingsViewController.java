@@ -33,6 +33,11 @@ public class SettingsViewController<T extends Setting> implements Initializable 
     this.root.setExpanded(true);
     this.treeView.setShowRoot(false);
     this.treeView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+
+      if (!newValue.getChildren().isEmpty()){
+        newValue.setExpanded(true);
+      }
+
       this.contentContainer.getChildren().clear();
       AnchorPane pane = newValue.getValue().getContent();
       this.contentContainer.getChildren().add(pane);
