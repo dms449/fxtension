@@ -35,7 +35,7 @@
             <Separator prefWidth="200.0" />
             <VBox fx:id="vbox" spacing="5.0" />
             <Separator prefWidth="200.0" />
-            <Button mnemonicParsing="false" text="Add New" />
+            <Button fx:id="addBtn" mnemonicParsing="false" text="Add New" />
          </children>
       </VBox>
    </children>

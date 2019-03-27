@@ -28,10 +28,7 @@ public abstract class SimpleSettingsDialogController<T extends Setting> extends 
   public Button cancelBtn;
   @FXML
   public Button defaultBtn;
-  @FXML
-  public ToolBar toolBar;
-  @FXML
-  public HBox hbox;
+
 
   // =================== Non FXML propertyMap ==================
 
@@ -42,8 +39,6 @@ public abstract class SimpleSettingsDialogController<T extends Setting> extends 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     super.initialize(location, resources);
-    // this makes most of the buttons to sit at the right hand side of the toolbar
-    toolBar.widthProperty().addListener((observable, oldValue, newValue) -> hbox.setPrefWidth(newValue.doubleValue()-15.0));
     // add the settings pane to this pane
     vbox.getChildren().add(0,settingsPane);
 
