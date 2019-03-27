@@ -254,6 +254,19 @@ public class PropertyGroup {
     }
 
     /**
+     * Add a ListChangeListener to an auto-generated ListProperty which is mapped to a provided property.
+     *
+     * @param property The provided ListProperty which acts as a key to the applied property.
+     * @param listener The listener to be added to the applied ListProperty
+     * @param <T>
+     */
+    public <T> void addListenerToListProperty(ListProperty<T> property, ListChangeListener<T> listener){
+        listPropertyMap.get(property).addListener(listener);
+    }
+
+
+
+    /**
      * Tests for equivalency between values in the 'gui' ArrayList and those int the 'applied' ArrayList. If there is any
      * difference, it will return true indicating something has changed.
      * @return

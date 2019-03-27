@@ -15,8 +15,10 @@ import stevensd.settings.controllers.SettingsViewController;
 import java.io.IOException;
 
 /**
- * This examples only demonstrates the most barebones approach of creating and showing settings. Emulating this approach
- * will probably not be sufficient for most applications.
+ * This examples only demonstrates the Settings TreeView for displaying Setting panes.
+ * It does not demonstrate the use of PropertyGroups or ConfigManager
+ *
+ * Emulating this approach will probably not be sufficient for most applications.
  */
 public class SimplestExample extends Application {
 
