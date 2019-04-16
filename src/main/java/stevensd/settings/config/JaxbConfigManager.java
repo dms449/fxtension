@@ -14,7 +14,6 @@ public class JaxbConfigManager<T> extends ConfigManager<T> {
     public T defaultConfig;
 
     public File configFile;
-    public File defaultConfigFIle;
 
 
     public JaxbConfigManager(Class<T> clazz)  throws JAXBException{
@@ -70,6 +69,7 @@ public class JaxbConfigManager<T> extends ConfigManager<T> {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             T object = (T) unmarshaller.unmarshal(file);
             config = object;
+            configFile = file;
             return load();
         } catch (JAXBException e){
             e.printStackTrace();
@@ -91,4 +91,28 @@ public class JaxbConfigManager<T> extends ConfigManager<T> {
         }
     }
 
+    /**
+     *
+     */
+    public void loadDefault(){
+        if (defaultConfig != null){
+            load(defaultConfig);
+        }
+    }
+
+    /**
+     * Get the config object
+     * @return
+     */
+    public T getConfig() {
+        return config;
+    }
+
+    /**
+     * Set the config object.
+     * @param config
+     */
+    public void setConfig(T config) {
+        this.config = config;
+    }
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="TestConfig">
+        <xs:complexType>
+            <xs:sequence>
+
+                <xs:element name="Connections">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                            <xs:element name="Connection" type="Connection"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="Recorder">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Recycle">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:boolean">
+                                            <xs:attribute name="fileSize" type="xs:integer"/>
+                                            <xs:attribute name="numFiles" type="xs:integer"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="name" type="xs:string"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Connection">
+        <xs:attribute name="ip" type="xs:string"/>
+        <xs:attribute name="port" type="xs:integer"/>
+    </xs:complexType>
+</xs:schema>

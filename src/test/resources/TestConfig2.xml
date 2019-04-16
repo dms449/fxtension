@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestConfig>
+    <Connections>
+        <Connection ip="127.0.0.1" port="11002">Conn1</Connection>
+        <Connection ip="127.0.0.1" port="30102">Conn2</Connection>
+    </Connections>
+    <Recorder name="MyRecorder">
+        <Recycle fileSize="20002" numFiles="102">true</Recycle>
+    </Recorder>
+</TestConfig>
