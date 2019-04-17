@@ -20,9 +20,18 @@ public class JaxbConfigManager<T> extends ConfigManager<T> {
         this.context = JAXBContext.newInstance(clazz);
     }
 
-    public JaxbConfigManager(Class<T> clazz, URL url) throws JAXBException{
+    public JaxbConfigManager(Class<T> clazz, File file) throws JAXBException{
+        this(clazz);
+        configFile = file;
+        config = (T) this.context.createUnmarshaller().unmarshal(file);
+        defaultConfig = (T) this.context.createUnmarshaller().unmarshal(file);
+    }
 
-
+    public JaxbConfigManager(Class<T> clazz, File file, URL url) throws JAXBException{
+        this(clazz);
+        configFile = file;
+        config = (T) this.context.createUnmarshaller().unmarshal(file);
+        defaultConfig = (T) this.context.createUnmarshaller().unmarshal(url);
     }
 
     /**
