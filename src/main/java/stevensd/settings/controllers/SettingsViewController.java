@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  *<p> All Setting objects are added to this object</p>
  * @param <T>
  */
-public class SettingsViewController<T extends Setting> implements Initializable {
+public class SettingsViewController<T extends Setting<T>> implements Initializable {
   @FXML
   public TreeView<T> treeView;
   @FXML
@@ -68,16 +68,20 @@ public class SettingsViewController<T extends Setting> implements Initializable 
    * @param setting
    */
   public void addSetting(T setting){
-    TreeItem item = new TreeItem<>(setting);
-    setting.children.forEach(s -> this.addSetting((T)s, item));
+    TreeItem<T> item = new TreeItem<>(setting);
+    setting.children.forEach(s -> this.addSetting(s, item));
     this.root.getChildren().add(item);
 
-    setting.children.addListener(new ListChangeListener<Setting>() {
+    setting.children.addListener(new ListChangeListener<T>() {
       @Override
-      public void onChanged(Change<? extends Setting> c) {
+      public void onChanged(Change<? extends T> c) {
         while(c.next()){
           if (c.wasAdded()){
-            c.getAddedSubList().forEach(setting -> SettingsViewController.this.addSetting((T)setting, item));
+            c.getAddedSubList().forEach(setting -> SettingsViewController.this.addSetting(setting, item));
+          }
+
+          if (c.wasRemoved()){
+            c.getRemoved().forEach(setting -> SettingsViewController.this.removeSetting(setting));
           }
         }
       }

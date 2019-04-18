@@ -10,11 +10,11 @@ import java.util.Arrays;
 /**
  *
  */
-public class Setting {
+public class Setting<T extends Setting> {
   public AnchorPane content;
   public String name;
 
-  public ObservableList<Setting> children;
+  public ObservableList<T> children;
 
   /**
    * Constructor for a simple setting
@@ -40,7 +40,7 @@ public class Setting {
    * Add a {@link Setting} as a child to this object
    * @param setting
    */
-  public void add(Setting setting){
+  public void add(T setting){
     children.add(setting);
   }
 
@@ -48,7 +48,7 @@ public class Setting {
    * Add multiple {@link Setting}s as a child to this object
    * @param settings
    */
-  public void addAll(Setting... settings){
+  public void addAll(T... settings){
     Arrays.asList(settings).forEach(this::add);
   }
 
@@ -56,7 +56,7 @@ public class Setting {
    * Remove a {@link Setting} child from this object
    * @param setting
    */
-  public void remove(Setting setting){
+  public void remove(T setting){
     children.remove(setting);
   }
 
@@ -64,7 +64,7 @@ public class Setting {
    * Remove multiple {@link Setting}s
    * @param settings
    */
-  public void removeAll(Setting... settings){
+  public void removeAll(T... settings){
     Arrays.asList(settings).forEach(this::remove);
   }
 
