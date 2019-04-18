@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import stevensd.settings.Setting;
+import stevensd.settings.SimpleSetting;
 import stevensd.settings.controllers.AbstractSettingsDialogController;
 import stevensd.settings.controllers.SettingsViewController;
 
@@ -27,17 +28,17 @@ public class SimplestExample extends Application {
         // This is the controller behind the SettingsView. This is NOT the controller behind each individual settings
         // pane. In this very simple examples, the individual setting panes do not have a controller.
         // The SettingsViewController doesn't need to know or interact with the individual setting controllers.
-        SettingsViewController<Setting> svc = new SettingsViewController<>();
+        SettingsViewController<SimpleSetting> svc = new SettingsViewController<>();
 
         // setting pane 1
         AnchorPane p1 = new AnchorPane();
         p1.getChildren().add(new Button("I'm a button"));
-        svc.addSetting(new Setting(p1, "Setting 1"));
+        svc.addSetting(new SimpleSetting(p1, "Setting 1"));
 
         // setting pane 2
         AnchorPane p2 = new AnchorPane();
         p2.getChildren().add(new TableView<>());
-        svc.addSetting(new Setting(p2, "Setting 2"));
+        svc.addSetting(new SimpleSetting(p2, "Setting 2"));
 
 
         try{

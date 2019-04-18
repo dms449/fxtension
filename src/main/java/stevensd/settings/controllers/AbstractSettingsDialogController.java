@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class AbstractSettingsDialogController<T extends Setting> extends PropertyGroup implements Initializable {
+public abstract class AbstractSettingsDialogController<T extends Setting<T>> extends PropertyGroup implements Initializable {
 
   public SettingsViewController<T> settingsViewController;
 

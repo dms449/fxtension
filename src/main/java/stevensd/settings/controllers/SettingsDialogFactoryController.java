@@ -8,7 +8,7 @@ import stevensd.settings.SettingsFactory;
 
 import java.net.URL;
 
-public abstract class SettingsDialogFactoryController<T extends Setting> extends AbstractSettingsDialogController<T> {
+public abstract class SettingsDialogFactoryController<T extends Setting<T>> extends AbstractSettingsDialogController<T> {
   public SettingsFactory<T> factory;
 
   public SettingsDialogFactoryController(Class<T> clazz) {

@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  * A factory class to simplify the making of the Settings and adding them to the appropriate TreeItem
  * @param <T>
  */
-public class SettingsFactory<T extends Setting> {
+public class SettingsFactory<T extends Setting<T>> {
 
   /**
    * The class used to create the Settings

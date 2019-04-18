@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-public abstract class SimpleSettingsDialogController<T extends Setting> extends SettingsDialogFactoryController<T> {
+public abstract class SimpleSettingsDialogController<T extends Setting<T>> extends SettingsDialogFactoryController<T> {
   @FXML
   public VBox vbox;
   @FXML

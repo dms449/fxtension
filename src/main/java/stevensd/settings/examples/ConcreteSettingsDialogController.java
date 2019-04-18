@@ -7,7 +7,7 @@ import stevensd.settings.controllers.SimpleSettingsDialogController;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ConcreteSettingsDialogController<T extends Setting> extends SimpleSettingsDialogController<T> {
+public class ConcreteSettingsDialogController<T extends Setting<T>> extends SimpleSettingsDialogController<T> {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     super.initialize(location, resources);

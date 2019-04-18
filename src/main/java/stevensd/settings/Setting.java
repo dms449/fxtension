@@ -10,7 +10,7 @@ import java.util.Arrays;
 /**
  *
  */
-public class Setting<T extends Setting> {
+public abstract class Setting<T extends Setting> {
   public AnchorPane content;
   public String name;
 
