@@ -366,4 +366,23 @@ public class PropertyGroup {
         // reset all children groups
         children.forEach(PropertyGroup::reset);
     }
+
+    /**
+     * Reset a specific property rather than this entire group
+     * @param property
+     * @param <T>
+     */
+    public <T>  void resetProperty(Property<T> property){
+        property.setValue((T)propertyMap.get(property).getValue());
+    }
+
+    /**
+     * Reset a specific list property rather than this entire group
+     * @param property
+     * @param <T>
+     */
+    public <T>  void resetPropertyList(ListProperty<T> property){
+        property.setValue(listPropertyMap.get(property).getValue());
+    }
+    
 }
