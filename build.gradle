@@ -1,26 +1,28 @@
-import java.util.regex.Matcher
-import java.util.regex.Pattern
+plugins {
+  id 'application'
+  id 'org.openjfx.javafxplugin' version '0.0.7'
+  id 'java-library'
+  id 'org.beryx.jlink' version '2.10.2'
+}
 
-apply plugin: 'java-library'
-apply plugin: 'idea'
 
 // Java version required
-sourceCompatibility = 1.8
+//sourceCompatibility = 1.12
 
 /*** CONFIGURATION SECTION ***/
 ext {
-    // WeatherTools Version Number
+    // FxExtension Version Number
     //   The version number is preferentially obtained from git
     //   tags, where available. If the information cannot be
     //   retrieved from Git, this version will be used instead.
     //
     //   Version numbers are semantic and are formatted
     //   MAJOR.MINOR.PATCH.
-    SettingsDialogVersion = '0.5.0'
+    fxtensionsVersion = '0.5.0'
 
     // default locations for external java libs
-    String osName = System.getProperty("os.name").toLowerCase()
-    defaultDependencyDirs =  (osName.contains("windows")) ? defaultDependencyDirs = ["C:/JavaLibs"] :[System.getProperty("user.home") + "/JavaLibs"];
+//    String osName = System.getProperty("os.name").toLowerCase()
+    defaultDependencyDirs = "~/JavaLibs"
 
     // the repo location for external dependencies can be provided with the command line argument -Prepo=...
     // Otherwise it will default to the above locations
@@ -28,27 +30,48 @@ ext {
 }
 
 
-group = 'stevensd.settings'
-archivesBaseName = 'settings-dialog'
+archivesBaseName = 'fxtensions'
 version = git_describe()
 
 // Define a local directory with java jars to use as a mavenLocal repo
 repositories {
+    mavenCentral()
+
+    // For offline development
     flatDir {
         dirs project.property("localRepo")
     }
 }
 
+
 sourceSets {
-    generated {
-        java.srcDir "${buildDir}/generated/"
-    }
+//    generated {
+//        java.srcDir "${buildDir}/generated/"
+//    }
+}
+
+javafx {
+    version = "12.0.1"
+    modules = [ 'javafx.controls','javafx.fxml', 'javafx.graphics']
 }
 
 dependencies{
-    testImplementation name: 'hamcrest-all', version:'1.3'
+//    testImplementation name: 'hamcrest-all', version:'1.3'
     testImplementation name: 'junit', version:'4.12'
-    api sourceSets.generated.output.classesDirs
+
+    //
+    implementation "javax.xml.bind:jaxb-api:2.3.1"
+//    implementation "com.sun.xml.bind:jaxb-core:2.2.11"
+//    implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
+//    implementation "javax.activation:activation:1.1.1"
+//    api sourceSets.generated.output.classesDirs
+}
+
+
+jlink {
+    launcher {
+        name = 'hellofx'
+    }
 }
 
 /**
@@ -59,13 +82,13 @@ task generateSources {
     outputs.dir "$buildDir/generated"
 
     doFirst {
-        def versionFile = file("$buildDir/generated/stevensd/settings/SettingsDialogVersion.java")
+        def versionFile = file("$buildDir/generated/dms/fxtensions/fxtensionsVersion.java")
         versionFile.parentFile.mkdirs()
         versionFile.text =
                 """
-    package stevensd.settings;
+    package dms.fxtensions;
 
-    public class SettingsDialogVersion {
+    public class fxtensionsVersion {
       public static String getVersion() {
         return "$project.version";
       }
@@ -92,14 +115,7 @@ jar {
     }
 }
 
-/**
- * Intellij
- */
-idea {
-    module {
-        generatedSourceDirs += new File(buildDir, "generated")
-    }
-}
+
 
 /**
  * Returns the git description of the software build.
@@ -107,7 +123,7 @@ idea {
  * @return
  */
 def git_describe() {
-    def git_description = "${SettingsDialogVersion}";
+    def git_description = "${fxtensionsVersion}";
     try {
         git_description = "git -C \"${projectDir}\" describe --long --always HEAD".execute().text.trim()
     } catch (java.lang.Exception e) {

@@ -1,0 +1,422 @@
+*{
+    -my-blue: #267299;
+    -my-green: #227a40;
+    -my-orange: #AD6720;
+    -my-dark: #1d1f20;
+    -my-medium: #2b2d30;
+    -my-light: #3c4144;
+
+    -my-separator: rgb(23, 26, 26) ;
+
+    -my-selection: -my-green;
+    -my-highlight: -my-blue;
+    -my-text-selected: #D7DAE0;
+    -my-text-hover: #8E8E8E;
+    -my-text: #bebebe;
+    -my-border: #267299;
+    -my-hover: #363b3e;
+}
+
+.root {
+    -fx-base: -my-dark;
+    -fx-accent: #e7eff7 ;
+    /* -fx-default-button: #7f878f ; */
+    -fx-focus-color: -my-highlight;
+    -fx-faint-focus-color: #efefef22;
+    /*-fx-focused-text-base-color : ladder(
+            -fx-selection-bar,
+            -fx-light-text-color 45%,
+            -fx-dark-text-color 46%,
+            -fx-dark-text-color 59%,
+            -fx-mid-text-color 60%
+        ); */
+    /* -fx-focused-mark-color : -fx-focused-text-base-color ; */
+}
+
+
+/* ------------------------------- label -------------------------*/
+.label {
+    -fx-text-fill: -my-text;
+}
+
+/* ------------------------------- Containers -------------------------*/
+BorderPane, VBox, HBox, SplitPane, AnchorPane, StackPane {
+    -fx-background-color: -my-dark;
+}
+
+
+/* ------------------------------- ScrollPane -------------------------*/
+.scroll-pane{
+    -fx-background-color: -my-medium;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: -my-medium;
+    -fx-border-width: 0;
+}
+
+/* ------------------------------- SplitPane -------------------------*/
+/* .split-pane{
+    -fx-background-background: blue;
+} */
+
+.split-pane .split-pane-divider{
+    -fx-background-color: -my-light;
+    -fx-padding: 0 1 0 1;
+    -fx-border-color: transparent;
+}
+
+.split-pane .split-pane-divider .horizontal-grabber{
+    -fx-background-color: transparent;
+}
+
+/* ------------------------------- DialogPane -------------------------*/
+.dialog-pane{
+    -fx-background-color: -my-medium;
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: -my-medium;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: -my-light;
+}
+
+.dialog-pane .button-bar .container {
+    -fx-background-color: -my-dark;
+    -fx-border-width: 2 0 0 0;
+    -fx-border-color: linear-gradient(#4a4a4a 0%, -my-dark 100%);
+}
+
+
+/* ------------------------------- Separator -------------------------*/
+.separator:horizontal .separator:vertical{
+    -fx-background-color: transparent;
+}
+
+.separator .line{
+    -fx-background-color: -my-separator;
+    -fx-border-width: 0;
+}
+/* ------------------------------- TitledPane -------------------------*/
+ .titled-pane {
+    -fx-background-color: -my-dark;
+    -fx-text-fill: -my-text;
+    -fx-focus-color: transparent;
+
+ }
+
+ .titled-pane .title{
+    -fx-background-color: -my-medium;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 0 0 0;
+    -fx-padding: 0.16em 0.83em 0.25em 0.83em;
+    -fx-text-fill: -my-text;
+
+ }
+
+.titled-pane:focused > .title{
+    -fx-color: green;
+}
+
+.titled-pane > .content{
+    -fx-background-color: -my-dark;
+    -fx-border-width: 0;
+}
+
+.titled-pane > .title > .arrow-button{
+    -fx-background-color: null;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0 0.25em 0.0em 0.0em;
+}
+
+.titled-pane > .title > .arrow-button .arrow{
+    -fx-background-color: -my-selection, -my-dark;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.25em 0.3125em 0.25em 0.3125em;
+    -fx-shape: "M 0 0 h 7 1 -3.5 4 z";
+}
+
+/* ------------------------------- TreeView -------------------------*/
+.tree-view{
+    -fx-background-color: -my-medium;
+}
+
+.tree-view .tree-cell{
+  -fx-background-color: -my-medium;
+  -fx-text-fill: -my-text;
+}
+
+/* ------------------------------- ListView -------------------------*/
+.list-view{
+    -fx-background-color: -my-light;
+}
+
+/* ------------------------------- Colorpicker -------------------------*/
+.color-picker{
+    -fx-background-color: -my-medium;
+    -fx-background-radius: 6;
+    -fx-background-insets: 0 0 0 0;
+}
+
+.color-picker > .arrow-button{
+    -fx-background-color: -my-light -my-medium;
+    -fx-background-insets: 0, 0 0 0 0;
+    -fx-text-fill: -my-text;
+    -fx-focus-color: -my-blue;
+}
+
+.color-picker > .arrow-button .arrow {
+        -fx-background-color: -my-selection, -my-dark;
+        -fx-background-insets: 1 0 -1 0, 0;
+        -fx-padding: 0.25em 0.3125em 0.25em 0.3125em;
+        -fx-shape: "M 0 0 h 7 1 -3.5 4 z";
+}
+
+.color-picker .color-picker-label{
+
+}
+
+/* ------------------------------- Toolbar -------------------------*/
+.tool-bar{
+    -fx-background-color: -my-dark;
+    -fx-border-width: 2 0 0 0;
+    -fx-border-color: linear-gradient(#4a4a4a 0%, -my-dark 100%);
+}
+
+/* ------------------------------- Radio Button -------------------------*/
+.radio-button{
+    -fx-text-fill: -my-text;
+}
+
+.radio-button .radio{
+    -fx-border-width: 2px;
+    -fx-border-color: -my-light;
+    -fx-background-color: -my-dark;
+    -fx-border-radius: 8px;
+    -fx-padding: 3;
+}
+
+.radio-button .dot{
+    -fx-background-color: transparent;
+    -fx-padding: 3;
+}
+
+.radio-button:selected{
+    -fx-text-fill: -my-selection;
+}
+
+.radio-button:selected .radio{
+    -fx-border-width: 2px;
+    -fx-border-color: -my-selection;
+    -fx-background-color: -my-dark;
+    -fx-border-radius: 8px;
+}
+
+.radio-button:selected .dot{
+    -fx-background-color: -my-selection;
+    -fx-background-insets: 0 0 0 0;
+}
+
+.radio-button:hover {
+  -fx-text-fill: -my-text-hover;
+}
+
+.radio-button:hover .dot{
+    -fx-background-color: -my-light;
+    -fx-padding: 3;
+}
+
+.radio-button:hover:selected .dot {
+    -fx-background-color: -my-selection;
+    -fx-background-insets: 0 0 0 0;
+}
+
+/* ------------------------------- Check Box -------------------------*/
+.check-box{
+    -fx-text-fill: -my-text;
+}
+
+.check-box .box{
+    /* -fx-border-width: 2px; */
+    -fx-border-color: -my-light;
+    -fx-border-radius: 4;
+    -fx-background-color: -my-light;
+    -fx-background-insets: 0 0 0 0;
+    -fx-padding: 2;
+}
+
+.check-box .mark{
+    -fx-background-color: transparent;
+}
+
+.check-box:selected {
+    -fx-text-fill: -my-selection;
+}
+
+.check-box:selected .mark{
+    -fx-background-color: -my-dark;
+}
+
+.check-box:selected .box{
+    -fx-border-color: -my-selection;
+    -fx-border-radius: 1;
+    -fx-background-color: -my-selection;
+    -fx-background-insets: 0 0 0 0;
+    -fx-padding: 2;
+}
+
+.check-box:hover .box{
+    -fx-background-color: -my-medium;
+    -fx-border-color: -my-medium;
+}
+
+.check-box:hover:selected .box{
+    -fx-background-color: -my-selection;
+    -fx-border-color: -my-selection;
+}
+
+.check-box:hover {
+    -fx-text-fill: -my-text-hover;
+}
+
+
+
+/* ------------------------------- ComboBox -------------------------*/
+.combo-box{
+    -fx-background-color: -my-medium, -my-light;
+    -fx-background-insets: 1, 2;
+}
+
+.combo-box > .arrow-button {
+    -fx-background-color: -my-medium;
+}
+
+/* ------------------------------- Button -------------------------*/
+.button{
+    -fx-border-width: 0;
+    -fx-background-color: -my-medium;
+    -fx-background-radius: 2;
+    -fx-padding: 6 10 6 10;
+    -fx-text-fill: -my-text;
+}
+
+.button:pressed, .button:pressed:hover{
+    -fx-background-color: rgb(36, 38, 40);
+}
+
+.button:hover{
+    -fx-background-color: -my-hover;
+}
+
+/* ------------------------------- ToggleButton -------------------------*/
+
+/* ------------------------------- TextField -------------------------*/
+.text-field{
+    -fx-background-color: -my-medium, #222426;
+    -fx-background-radius: 2;
+    -fx-background-insets: 0, 1;
+    -fx-border-radius: 0;
+    -fx-text-fill: -my-text;
+    -fx-prompt-text-fill: -my-text;
+}
+
+.text-field:focused{
+    -fx-background-color: -my-border, -my-medium, rgba(17, 35, 47, 0.5);
+    -fx-background-insets: 0, 1, 1;
+    -fx-border-radius: 0;
+    -fx-background-radius: 2;
+    -fx-text-fill: -my-text;
+}
+
+/* ------------------------------- MenuBar -------------------------*/
+.menu-bar{
+    -fx-background-color: -my-dark;
+    -fx-border-color: linear-gradient(-my-dark 0%, #373535 100%);
+}
+
+.menu-bar .label{
+    -fx-font-size: 10pt;
+    -fx-text-fill: -my-text;
+    -fx-opacity: 0.9;
+}
+
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:focused,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: -my-blue;
+}
+
+.context-menu {
+    -fx-background-color: -my-medium;
+    -fx-background-radius: 0;
+}
+
+.menu-item{
+    -fx-background-color: -my-medium;
+}
+
+.menu-item:focused{
+    -fx-background-color:-my-light;
+}
+
+.check-menu-item:focused,
+.check-menu-item > .left-container{
+    -fx-background-color: -my-medium;
+}
+
+
+.check-menu-item:focused > .left-container > .check,
+.check-menu-item:checked:focused > .left-container > .check{
+    /* -fx-color: fx-base; */
+    -fx-background-color: -my-light;
+    -fx-shape: "M0,5H2L4,8L8,0H10L5,10H3Z";
+    -fx-scale-shape: false;
+}
+
+.check-menu-item:checked >.left-container > .check{
+        /* -fx-color: fx-base; */
+        -fx-background-color: -my-selection;
+        -fx-shape: "M0,5H2L4,8L8,0H10L5,10H3Z";
+        -fx-scale-shape: false;
+}
+
+/* ------------------------------- TabPane -------------------------*/
+
+.tab-pane .tab-header-area .tab-header-background{
+    -fx-background-color: -my-medium;
+    -fx-border-width: 0 0 6 0;
+    -fx-border-color: linear-gradient(-my-dark 0%, -my-light 80%, -my-light 100%);
+    -fx-focus-color: transparent;
+}
+
+.tab {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, -my-medium,-my-dark);
+    -fx-border-width: 2 0 6 0;
+    -fx-border-color: transparent,
+        transparent,
+        linear-gradient(-my-dark 0%, -my-light 80%, -my-light 100%),
+        transparent;
+}
+
+.tab .tab-label{
+    -fx-background-color:transparent;
+    -fx-text-fill: -my-text;
+    -fx-font-size: 11pt;
+}
+
+.tab:selected {
+    -fx-background-color: -my-light;
+    -fx-background-radius: 0;
+    -fx-border-width: 2 0 6 0;
+    -fx-border-color: -my-border transparent transparent transparent;
+    -fx-focus-color: transparent;
+}
+
+.tab:selected .tab-label{
+    -fx-background-color: -my-light;
+    -fx-background-insets: 0;
+    -fx-text-field: -my-text;
+    -fx-font-size: 11pt;
+    -fx-focus-color: transparent;
+}
