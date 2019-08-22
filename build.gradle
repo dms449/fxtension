@@ -20,6 +20,9 @@ ext {
     //   MAJOR.MINOR.PATCH.
     fxtensionsVersion = '0.5.0'
 
+    // FxVersion Number
+    fxVersion = project.hasProperty("fxVersion") ? project.property("fxVersion") : "11.0.2"
+
     // default locations for external java libs
 //    String osName = System.getProperty("os.name").toLowerCase()
     defaultDependencyDirs = "~/JavaLibs"
@@ -43,22 +46,25 @@ repositories {
     }
 }
 
-dependencies{
-    testImplementation "org.hamcrest:hamcrest-junit:2.0.0.0"
-    implementation "javax.xml.bind:jaxb-api:2.3.1"
+sourceSets {
+
+  // this contains an auto-generated version file
+  generated {
+    java.srcDir "${buildDir}/generated/"
+  }
 }
 
 
-//sourceSets {
-//  main{
-//      resources {
-//          includes = ['*.fxml']
-//      }
-//  }
-//}
+dependencies{
+    testImplementation "org.hamcrest:hamcrest-junit:2.0.0.0"
+    implementation "javax.xml.bind:jaxb-api:2.3.1"
+
+    // This will pull in the auto-generated version file
+    api sourceSets.generated.output.classesDirs
+}
 
 javafx {
-    version = "11.0.2"
+    version = fxVersion
     modules = [ 'javafx.controls','javafx.fxml', 'javafx.graphics']
 }
 
@@ -95,7 +101,8 @@ task generateSources {
 
 // Always generate sources first
 compileJava.dependsOn generateSources
-compileJava.source generateSources.outputs.files, sourceSets.main.java
+//compileJava.source generateSources.outputs.files, sourceSets.main.java
+
 
 task fatJar (type: Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -103,14 +110,12 @@ task fatJar (type: Jar) {
     manifest {
         attributes 'Specification-Title': archivesBaseName,
                 'Implementation-Version': version,
-                'Implementation-Vendor': 'U.S. Army AMRDEC',
                 'Assembly-Date': new java.util.Date().toString()
     }
     from {
-        configurations.compileClasspath.collect {it.isDirectory() ? it :zipTree(it)}
+        configurations.compile.collect {it.isDirectory() ? it :zipTree(it)}
     }
 }
-
 
 
 /**
@@ -119,9 +124,13 @@ task fatJar (type: Jar) {
  * @return
  */
 def git_describe() {
-    def git_description = "${fxtensionsVersion}";
+    def git_description = "${fxtensionsVersion}"
     try {
-        git_description = "git -C \"${projectDir}\" describe --long --always HEAD".execute().text.trim()
+        tmp = "git -C \"${projectDir}\" describe --long --always HEAD".execute().text.trim()
+        if (tmp != ""){
+          git_description = tmp
+        }
+        println("git = " + git_description)
     } catch (java.lang.Exception e) {
         /// do nothing
     }
