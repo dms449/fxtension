@@ -113,7 +113,7 @@ task fatJar (type: Jar) {
                 'Assembly-Date': new java.util.Date().toString()
     }
     from {
-        configurations.compile.collect {it.isDirectory() ? it :zipTree(it)}
+        configurations.compileClasspath.collect {it.isDirectory() ? it :zipTree(it)}
     }
 }
 
